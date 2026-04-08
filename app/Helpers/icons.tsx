@@ -1,7 +1,10 @@
-import { AiOutlineSun as Sun } from "react-icons/ai";
+import { AiOutlineSun as Sun, AiOutlineMenu as Menu, AiOutlineClose as Close } from "react-icons/ai";
 import { BsMoonStars as Moon } from "react-icons/bs";
+
 
 export {
     Moon,
-    Sun
+    Sun,
+    Menu,
+    Close
 }
