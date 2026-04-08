@@ -19,13 +19,15 @@
     --color-main: #F5F5F5;
     --color-secondary: #FFCEE3;
     --color-normal: #FF85BB;
-    --color-last: #021A54;
+    --color-last: #061d53;
+    --text-normal: #000;
   }
 
   .dark {
-    --color-main: #021A54;
+    --color-main: #061d53;
     --color-secondary: #FF85BB;
     --color-normal: #FFCEE3;
     --color-last: #F5F5F5;
+    --text-normal: #fff;
   }
 }

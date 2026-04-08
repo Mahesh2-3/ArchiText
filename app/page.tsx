@@ -24,11 +24,11 @@ export default function Home() {
         </button>
       )}
       <Group className="h-screen w-full flex gap-0 bg-(--color-main)" orientation="horizontal">
-        <Panel defaultSize={20} minSize="15%" hidden={!isSideBarOpen}><Sidebar state={isSideBarOpen} func={toggleSideBar} /></Panel>
+        <Panel defaultSize={15} minSize="15%" hidden={!isSideBarOpen}><Sidebar state={isSideBarOpen} func={toggleSideBar} /></Panel>
         <Separator />
-        <Panel defaultSize={50} minSize="50%">  <MindMap /></Panel>
+        <Panel defaultSize={60} minSize="50%">  <MindMap /></Panel>
         <Separator />
-        <Panel defaultSize={30} minSize="20%"><Conversation /></Panel>
+        <Panel defaultSize={25} minSize="20%"><Conversation /></Panel>
       </Group>
     </div>
   );
