@@ -1,4 +1,5 @@
 export const data = {
+  projectTitle: "Habit Tracker App",
   techStack: {
     frontend: {
       name: "Next.js",
