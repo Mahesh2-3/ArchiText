@@ -22,22 +22,22 @@ export const generateElements = (sourceData: typeof data): { nodes: Node[], edge
      * Reusable helper to insert styled layout nodes directly into ReactFlow collections.
      */
     const addNode = (
-        id: string, 
-        label: React.ReactNode, 
-        depth: number, 
-        parentId: string | null = null, 
-        lines: number = 1, 
+        id: string,
+        label: React.ReactNode,
+        depth: number,
+        parentId: string | null = null,
+        lines: number = 1,
         isParent: boolean = false
     ) => {
         // Approximate heights ensuring adequate bounding containers for content text
         const height = 50 + (lines * 26);
-        
+
         const labelElement = (
-            <div className={`w-full h-full rounded-lg border-2 p-3 shadow-sm flex flex-col ${depth === 0
-                    ? 'bg-blue-600 border-blue-800 text-white justify-center items-center font-extrabold text-lg'
-                    : isParent
-                        ? 'bg-indigo-100 dark:bg-indigo-900 border-indigo-400 text-indigo-900 dark:text-indigo-100 justify-center items-center font-bold text-base'
-                        : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200 font-normal text-sm'
+            <div className={`w-full h-full rounded-xl border-2 p-3 shadow-md flex flex-col ${depth === 0
+                ? 'bg-(--color-last) border-(--color-normal) text-(--color-main) justify-center items-center font-extrabold text-lg'
+                : isParent
+                    ? 'bg-(--color-secondary) border-(--color-normal) text-(--color-last) justify-center items-center font-bold text-base'
+                    : 'bg-(--color-main) border-(--color-secondary) text-(--text-normal) font-normal text-sm'
                 }`}>
                 {label}
             </div>
@@ -45,7 +45,7 @@ export const generateElements = (sourceData: typeof data): { nodes: Node[], edge
 
         nodes.push({
             id,
-            position: { x: 0, y: 0 }, // Post-calculated exactly by layout generator later
+            position: { x: 0, y: 0 },
             data: { label: labelElement, _height: height },
             style: { width: 300, border: 'none', padding: 0, backgroundColor: 'transparent' },
             type: depth === 0 ? 'input' : 'default',
@@ -67,54 +67,57 @@ export const generateElements = (sourceData: typeof data): { nodes: Node[], edge
     // Construct the primary root head
     const rootId = addNode('root', sourceData.projectTitle, 0, null, 1, true);
 
-    // 1. Tech Stack (Rich Table Node)
+    // 1. Tech Stack (Parent + Rich Table Leaf)
+    const tsParentId = addNode('techStack_parent', 'Tech Stack', 1, rootId, 1, true);
     addNode(
-        'techStack', 
-        <TechStackLabel techStack={sourceData.techStack} />, 
-        1, 
-        rootId, 
-        Object.keys(sourceData.techStack).length * 2.5 + 2
+        'techStack',
+        <TechStackLabel techStack={sourceData.techStack} />,
+        2,
+        tsParentId,
+        sourceData.techStack.length * 2.5 + 2
     );
 
     // 2. Database Schema (Parent distributing Models)
     const schemaId = addNode('schema', 'Database Schema', 1, rootId, 1, true);
     sourceData.schema.forEach((model) => {
         addNode(
-            `sc_${model.collection}`, 
-            <SchemaModelLabel model={model} />, 
-            2, 
-            schemaId, 
+            `sc_${model.collection}`,
+            <SchemaModelLabel model={model} />,
+            2,
+            schemaId,
             model.fields.length + 2
         );
     });
 
-    // 3. APIs (Rich Table Node)
+    // 3. APIs (Parent + Rich Table Leaf)
+    const apisParentId = addNode('apis_parent', 'APIs', 1, rootId, 1, true);
     addNode(
-        'apis', 
-        <APIsLabel apis={sourceData.apis} />, 
-        1, 
-        rootId, 
+        'apis',
+        <APIsLabel apis={sourceData.apis} />,
+        2,
+        apisParentId,
         sourceData.apis.length * 2.5 + 2
     );
 
     // 4. Structure (Parent distributing Folder domains)
     const structureId = addNode('structure', 'Structure', 1, rootId, 1, true);
-    Object.entries(sourceData.structure).forEach(([key, val]) => {
+    sourceData.structure.forEach((sectionData) => {
         addNode(
-            `st_${key}`, 
-            <StructureFolderLabel titleKey={key} val={val} />, 
-            2, 
-            structureId, 
-            val.length + 2
+            `st_${sectionData.section}`,
+            <StructureFolderLabel section={sectionData.section} paths={sectionData.paths} />,
+            2,
+            structureId,
+            sectionData.paths.length + 2
         );
     });
 
-    // 5. Scaling (Rich Bulleted Node)
+    // 5. Scaling (Parent + Rich Bulleted Leaf)
+    const scalingParentId = addNode('scaling_parent', 'Scaling Strategies', 1, rootId, 1, true);
     addNode(
-        'scaling', 
-        <ScalingLabel scaling={sourceData.scaling} />, 
-        1, 
-        rootId, 
+        'scaling',
+        <ScalingLabel scaling={sourceData.scaling} />,
+        2,
+        scalingParentId,
         sourceData.scaling.length * 1.5 + 2
     );
 

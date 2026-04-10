@@ -7,10 +7,10 @@ export const TechStackLabel = ({ techStack }: { techStack: any }) => (
     <div className="text-left w-full">
         <div className="font-bold mb-2 pb-1 border-b border-inherit">Tech Stack</div>
         <ul className="text-sm flex flex-col gap-2">
-            {Object.entries(techStack).map(([key, val]: [string, any]) => (
-                <li key={key}>
-                    <div className="font-bold capitalize">{key}: <span className="font-medium text-blue-600 dark:text-blue-400">{val.name}</span></div>
-                    <div className="text-xs text-inherit opacity-80 mt-0.5">{val.reason}</div>
+            {techStack.map((item: any, i: number) => (
+                <li key={i}>
+                    <div className="font-bold capitalize">{item.area}: <span className="font-extrabold opacity-90">{item.name}</span></div>
+                    <div className="text-xs text-inherit opacity-80 mt-0.5">{item.reason}</div>
                 </li>
             ))}
         </ul>
@@ -55,11 +55,11 @@ export const APIsLabel = ({ apis }: { apis: any[] }) => (
 /**
  * Returns a styled label visualizing sub-directories within structure sections.
  */
-export const StructureFolderLabel = ({ titleKey, val }: { titleKey: string, val: string[] }) => (
+export const StructureFolderLabel = ({ section, paths }: { section: string, paths: string[] }) => (
     <div className="text-left w-full">
-        <div className="font-bold mb-2 pb-1 border-b border-inherit capitalize">{titleKey}</div>
+        <div className="font-bold mb-2 pb-1 border-b border-inherit capitalize">{section}</div>
         <ul className="text-sm font-mono flex flex-col gap-1">
-            {val.map((path, i) => (
+            {paths.map((path, i) => (
                 <li key={i}>{path}</li>
             ))}
         </ul>
