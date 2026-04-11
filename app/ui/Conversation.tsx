@@ -4,68 +4,80 @@ import React, { useEffect, useState } from 'react'
 import MessageCard from '../Components/MessageCard'
 import { PaperPlane } from '../Helpers/icons';
 import ConversationSkeleton from '../Skeletons/ConversationSkeleton';
+import { ArchitectureData, MessageType } from '../Helpers/interfaces';
 
-type MessageType = {
-    role: string,
-    content: string
-}
-
-const Conversation = () => {
-    const [messages, setMessages] = useState<MessageType[]>([]);
+const Conversation = ({
+    conversation,
+    setConversation,
+    setArchitectureData
+}: {
+    conversation: MessageType[],
+    setConversation: (c: MessageType[]) => void,
+    setArchitectureData: (data: ArchitectureData) => void
+}) => {
     const [input, setInput] = useState("");
-    const [chatLoading, setChatLoading] = useState(false)
+    const [chatLoading, setChatLoading] = useState(false);
 
-    useEffect(() => {
-
-        const fetchMessage = async () => {
-            setChatLoading(true)
-            await new Promise((resolve) => setTimeout(resolve, 3000));
-            const data = [
-                {
-                    "role": "user",
-                    "content": "Hello, how are you?"
-                },
-                {
-                    "role": "assistant",
-                    "content": "I'm good! How can I help you today?"
-                },
-                {
-                    "role": "user",
-                    "content": "Explain React hooks"
-                },
-                {
-                    "role": "assistant",
-                    "content": "React hooks let you use state and lifecycle features in functional components."
-                }
-            ]
-            setMessages(data)
-            setChatLoading(false)
-        }
-        fetchMessage();
-
-    }, [])
-
-
-    const handleSend = (e: React.FormEvent) => {
+    const handleSend = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!input.trim()) return;
+        if (!input.trim() || chatLoading) return;
 
-        const userMsg = { role: "user", content: input };
-        const assistantMsg = { role: "assistant", content: "This is a dummy response from the assistant." };
+        const userMsg: MessageType = { role: "user", content: input };
 
-        setMessages(prev => [...prev, userMsg, assistantMsg]);
+        // Update local and parent conversation state
+        const updatedConversation = [...conversation, userMsg];
+        setConversation(updatedConversation);
         setInput("");
+        setChatLoading(true);
+
+        try {
+            const response = await fetch("http://localhost:5000/ai-chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ prompt: input }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch from AI");
+            }
+
+            const result = await response.json();
+
+            // Assuming the backend returns { data: ArchitectureData }
+            if (result.data) {
+                setArchitectureData(result.data);
+
+                const assistantMsg: MessageType = {
+                    role: "assistant",
+                    content: `Success! I have generated the architecture for "${result.data.projectTitle}". Look at the MindMap for details.`
+                };
+                setConversation([...updatedConversation, assistantMsg]);
+            }
+        } catch (error) {
+            console.error("Chat Error:", error);
+            const errorMsg: MessageType = {
+                role: "assistant",
+                content: "Sorry, I encountered an error while generating your architecture. Please try again."
+            };
+            setConversation([...updatedConversation, errorMsg]);
+        } finally {
+            setChatLoading(false);
+        }
     };
 
     return (
         <div className='border h-full bg-(--color-secondary) p-4 flex flex-col'>
             {/* Chat List */}
             <div className='grow overflow-y-auto mb-4'>
-                {messages.length === 0 ? (
-                    <ConversationSkeleton />
+                {conversation.length === 0 ? (
+                    <div className="h-full flex items-center justify-center text-gray-400 italic">
+                        Start a conversation to generate architecture...
+                    </div>
                 ) : (
                     <ul className='flex flex-col'>
-                        {messages.map(({ content, role }, index) => (
+                        {conversation.map(({ content, role }, index) => (
                             <li
                                 key={index}
                                 className={`w-full flex ${role === "user" ? "justify-end" : "justify-start"}`}

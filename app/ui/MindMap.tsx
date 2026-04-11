@@ -2,15 +2,30 @@ import { useState, useCallback, useMemo } from 'react';
 import { ReactFlow, applyNodeChanges, applyEdgeChanges, addEdge, Background, Controls } from '@xyflow/react';
 import type { Node, Edge, Connection, NodeChange, EdgeChange } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { data } from '@/constants';
+import { data as fallbackData } from '@/constants';
 import { generateElements } from '../Helpers/mindmapGenerator';
+import { ArchitectureData } from '../Helpers/interfaces';
+import { useEffect } from 'react';
 
-export default function MindMap() {
-    // Generate hierarchical data models on standard lifecycle mounting
-    const { nodes: initialNodes, edges: initialEdges } = useMemo(() => generateElements(data), []);
+export default function MindMap({ architectureData }: { architectureData: ArchitectureData | null }) {
+    // State for nodes and edges
+    const [nodes, setNodes] = useState<Node[]>([]);
+    const [edges, setEdges] = useState<Edge[]>([]);
 
-    const [nodes, setNodes] = useState<Node[]>(initialNodes);
-    const [edges, setEdges] = useState<Edge[]>(initialEdges);
+    // Log and update elements when architectureData changes
+    useEffect(() => {
+        if (architectureData) {
+            console.log("New Architecture Data Received:", architectureData);
+            const { nodes: newNodes, edges: newEdges } = generateElements(architectureData);
+            setNodes(newNodes);
+            setEdges(newEdges);
+        } else {
+            // Initial load with fallback data
+            const { nodes: initNodes, edges: initEdges } = generateElements(fallbackData);
+            setNodes(initNodes);
+            setEdges(initEdges);
+        }
+    }, [architectureData]);
 
     const onNodesChange = useCallback(
         (changes: NodeChange[]) => setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),

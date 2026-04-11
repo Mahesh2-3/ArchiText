@@ -5,9 +5,12 @@ import MindMap from "./ui/MindMap";
 import Sidebar from "./ui/Sidebar";
 import { useState } from "react";
 import { Menu } from "./Helpers/icons";
+import { ArchitectureData, MessageType } from "./Helpers/interfaces";
 
 export default function Home() {
   const [isSideBarOpen, setisSideBarOpen] = useState<boolean>(true);
+  const [conversation, setConversation] = useState<MessageType[]>([]);
+  const [architectureData, setArchitectureData] = useState<ArchitectureData | null>(null);
 
   const toggleSideBar = () => {
     setisSideBarOpen((prev) => !prev)
@@ -26,9 +29,17 @@ export default function Home() {
       <Group className="h-screen w-full flex gap-0 bg-(--color-main)" orientation="horizontal">
         <Panel defaultSize={15} minSize="15%" hidden={!isSideBarOpen}><Sidebar state={isSideBarOpen} func={toggleSideBar} /></Panel>
         <Separator />
-        <Panel defaultSize={60} minSize="50%">  <MindMap /></Panel>
+        <Panel defaultSize={60} minSize="50%">
+          <MindMap architectureData={architectureData} />
+        </Panel>
         <Separator />
-        <Panel defaultSize={25} minSize="20%"><Conversation /></Panel>
+        <Panel defaultSize={25} minSize="20%">
+          <Conversation
+            conversation={conversation}
+            setConversation={setConversation}
+            setArchitectureData={setArchitectureData}
+          />
+        </Panel>
       </Group>
     </div>
   );
