@@ -8,6 +8,7 @@ import {
     ScalingLabel
 } from '../Components/MindMapLabels';
 import { ArchitectureData } from './interfaces';
+import { getLayoutedElements } from './mindmapLayout';
 
 /**
  * Parses application architecture data into ReactFlow nodes and connects their edges,
