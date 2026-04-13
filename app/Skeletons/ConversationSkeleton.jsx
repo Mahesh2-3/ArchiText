@@ -1,33 +1,19 @@
-import React from 'react'
-
 const ConversationSkeleton = () => {
-    return (
-        <div className='animate-pulse flex flex-col w-full '>
-            {/* Assistant Message Skeleton */}
-            <div className='w-full flex justify-start my-3'>
-                <div className='bg-gray-300/50 border border-gray-300 dark:border-gray-600 rounded-lg h-12 w-[70%]'></div>
-            </div>
+  return (
+    <ul className="flex flex-col gap-1 pl-4 ml-1 border-l-2 border-gray-400 dark:border-gray-600">
+      {[1, 2, 3].map((i) => (
+        <li key={i} className="py-1.5 px-2">
+          <div
+            className="h-3 rounded bg-black/10 dark:bg-white/10 animate-pulse"
+            style={{
+              width: `${65 + i * 10}%`,
+              animationDelay: `${i * 80}ms`,
+            }}
+          />
+        </li>
+      ))}
+    </ul>
+  );
+};
 
-            {/* User Message Skeleton */}
-            <div className='w-full flex justify-end my-3'>
-                <div className='bg-gray-400/50 border border-gray-300 dark:border-gray-500 rounded-lg h-10 w-[40%]'></div>
-            </div>
-
-            {/* Assistant Message Skeleton */}
-            <div className='w-full flex justify-start my-3'>
-                <div className='bg-gray-300/50 border border-gray-300 dark:border-gray-600 rounded-lg h-16 w-[60%]'></div>
-            </div>
-            {/* User Message Skeleton */}
-            <div className='w-full flex justify-end my-3'>
-                <div className='bg-gray-400/50 border border-gray-300 dark:border-gray-500 rounded-lg h-10 w-[40%]'></div>
-            </div>
-
-            {/* Assistant Message Skeleton */}
-            <div className='w-full flex justify-start my-3'>
-                <div className='bg-gray-300/50 border border-gray-300 dark:border-gray-600 rounded-lg h-16 w-[60%]'></div>
-            </div>
-        </div>
-    )
-}
-
-export default ConversationSkeleton
+export default ConversationSkeleton;

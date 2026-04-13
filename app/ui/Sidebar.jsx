@@ -2,9 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import ThemeButton from "../Components/ThemeButton";
-import { Menu, Close, AngleDown } from "../Helpers/icons";
+import { Menu, Close, AngleDown, PlusCircle, Logout } from "../Helpers/icons";
 import Image from "next/image";
-import SidebarSkeleton from "../Skeletons/SidebarSkeleton";
+import ProjectSkeleton from "../Skeletons/ProjectSkeleton";
+import ConversationSkeleton from "../Skeletons/ConversationSkeleton";
 import Link from "next/link";
 import { useAppStore } from "../store/useAppStore";
 import { getConversations } from "../api/Conversations";
@@ -22,38 +23,44 @@ const Sidebar = ({ state, func, func2 }) => {
   const currentProject = useAppStore((state) => state.currentProject);
   const currentConversation = useAppStore((state) => state.currentConversation);
   const setCurrentProject = useAppStore((state) => state.setCurrentProject);
+  const user = useAppStore((state) => state.user);
+  const setUser = useAppStore((state) => state.setUser);
   const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
       setMounted(true);
-      setIsFetching({ projects: true, convo: true });
+      setIsFetching({ projects: true, convo: false });
       const { success, data } = await getProjects();
-      const { success: MsgSuccess, data: MsgData } =
-        await getConversations(currentProject);
       if (success) {
         setProjects(data);
       }
-      if (MsgSuccess) {
-        setConversations(MsgData);
+      setIsFetching((prev) => ({ ...prev, projects: false }));
+
+      if (currentProject) {
+        setIsFetching((prev) => ({ ...prev, convo: true }));
+        const { success: MsgSuccess, data: MsgData } =
+          await getConversations(currentProject);
+        if (MsgSuccess) {
+          setConversations(MsgData);
+        }
+        setIsFetching((prev) => ({ ...prev, convo: false }));
       }
-      setIsFetching({ projects: false, convo: false });
     };
     fetchData();
-  }, [currentProject, currentConversation]);
+  }, [currentProject, currentConversation, user]);
 
   const handleFetchConvo = async (projectId) => {
     router.replace(`/home?pid=${projectId}`);
-    // if (projectId === currentProject) {
-    //   return;
-    // }
-    // setIsFetching({ projects: false, convo: true });
-    // const { success, data } = await getConversations(projectId);
-    // if (success) {
-    //   setConversations(data);
-    // }
-    // setCurrentProject(projectId);
-    // setIsFetching({ projects: false, convo: false });
+  };
+
+  const handleLogout = async () => {
+    const response = await fetch("http://localhost:5000/logout", {
+      credentials: "include",
+      method: "POST",
+    });
+    setUser(null);
+    router.push("/login");
   };
 
   return (
@@ -84,76 +91,92 @@ const Sidebar = ({ state, func, func2 }) => {
 
       {/* Project List */}
       <div className="grow overflow-y-auto px-4">
-        <ul className="flex flex-col gap-6">
-          {projects &&
-            projects.map((project) => (
-              <li key={project._id} className="flex flex-col gap-2">
-                <button
-                  onClick={() => handleFetchConvo(project._id)}
-                  className="w-full flex items-center justify-between group py-1 cursor-pointer hover:bg-black/5 px-2 rounded-md"
-                >
-                  <span className="font-bold text-(--text-normal) group-hover:text-(--text-normal)/80 transition text-left">
-                    {project.title}
-                  </span>
-                  <AngleDown
-                    className={`transition-transform duration-300 text-(--text-normal)/60 ${
-                      currentProject === project._id ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                <ul className="flex flex-col gap-1 pl-4 ml-1 border-l-2 border-gray-400 dark:border-gray-600">
-                  {currentProject === project._id && isFetching.convo && (
-                    <li className="text-sm text-(--text-normal)/50 animate-pulse py-1.5 px-2">
-                      Loading...
-                    </li>
+        {isFetching.projects ? (
+          <ProjectSkeleton />
+        ) : (
+          <ul className="flex flex-col gap-6">
+            {projects &&
+              projects.map((project) => (
+                <li key={project._id} className="flex flex-col gap-2">
+                  <button
+                    onClick={() => handleFetchConvo(project._id)}
+                    className="w-full flex items-center justify-between group py-1 cursor-pointer hover:bg-black/5 px-2 rounded-md"
+                  >
+                    <AngleDown
+                      className={`transition-transform duration-300 text-(--text-normal)/60 ${
+                        currentProject === project._id ? "rotate-180" : ""
+                      }`}
+                    />
+                    <span className="font-bold text-(--text-normal) group-hover:text-(--text-normal)/80 transition text-left">
+                      {project.title}
+                    </span>
+                    <PlusCircle
+                      title="Add new Conversation"
+                      onClick={() => handleFetchConvo(project._id)}
+                      className="text-(--text-normal)/60 group-hover:text-(--text-normal) transition cursor-pointer"
+                    />
+                  </button>
+
+                  {/* Conversation list or skeleton */}
+                  {currentProject === project._id && isFetching.convo ? (
+                    <ConversationSkeleton />
+                  ) : (
+                    currentProject === project._id && (
+                      <ul className="flex flex-col gap-1 pl-4 ml-1 border-l-2 border-gray-400 dark:border-gray-600">
+                        {conversations && conversations.length === 0 && (
+                          <li className="text-sm text-(--text-normal)/50 py-1.5 px-2">
+                            No conversations yet
+                          </li>
+                        )}
+                        {conversations &&
+                          conversations.map((conversation) => (
+                            <li
+                              key={conversation._id}
+                              className="text-sm text-(--text-normal)/80 hover:text-(--text-normal) hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer transition truncate py-1.5 px-2 rounded-r-md"
+                            >
+                              <Link
+                                href={`/home?pid=${project._id}&cid=${conversation._id}`}
+                              >
+                                {conversation.title}
+                              </Link>
+                            </li>
+                          ))}
+                      </ul>
+                    )
                   )}
-                  {currentProject === project._id &&
-                    !isFetching.convo &&
-                    conversations &&
-                    conversations.length === 0 && (
-                      <li className="text-sm text-(--text-normal)/50 py-1.5 px-2">
-                        No conversations yet
-                      </li>
-                    )}
-                  {currentProject === project._id &&
-                    !isFetching.convo &&
-                    conversations &&
-                    conversations.map((conversation) => (
-                      <li
-                        key={conversation._id}
-                        className="text-sm text-(--text-normal)/80 hover:text-(--text-normal) hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer transition truncate py-1.5 px-2 rounded-r-md"
-                      >
-                        <Link
-                          href={`/home?pid=${project._id}&cid=${conversation._id}`}
-                        >
-                          {conversation.title}
-                        </Link>
-                      </li>
-                    ))}
-                </ul>
-              </li>
-            ))}
-        </ul>
+                </li>
+              ))}
+          </ul>
+        )}
       </div>
 
       {/* User Profile Container - Sticky Bottom */}
-      <div className="p-4 border-t border-gray-300 dark:border-gray-700 shrink-0 flex items-center gap-3 bg-black/5 dark:bg-white/5">
-        <div className="w-10 h-10 rounded-full bg-gray-400 dark:bg-gray-600 shrink-0 overflow-hidden flex items-center justify-center p-1">
-          <Image
-            src="/vercel.svg"
-            alt="Profile"
-            className="w-full h-full object-contain"
-            width={40}
-            height={40}
-          />
+      <div className="border-t border-gray-300 dark:border-gray-700 shrink-0 flex flex-col bg-black/5 dark:bg-white/5">
+        <div className="flex items-center gap-3 p-4">
+          <div className="w-10 h-10 rounded-full bg-gray-400 dark:bg-gray-600 shrink-0 overflow-hidden flex items-center justify-center p-1">
+            <Image
+              src="/vercel.svg"
+              alt="Profile"
+              className="w-full h-full object-contain"
+              width={40}
+              height={40}
+            />
+          </div>
+          <div className="flex flex-col overflow-hidden">
+            <span className="font-bold text-(--text-normal) truncate">
+              {user?.name}
+            </span>
+            <span className="text-xs text-(--text-normal)/70 truncate">
+              {user?.email}
+            </span>
+          </div>
         </div>
-        <div className="flex flex-col overflow-hidden">
-          <span className="font-bold text-(--text-normal) truncate">
-            Jane Doe
-          </span>
-          <span className="text-xs text-(--text-normal)/70 truncate">
-            jane.doe@example.com
-          </span>
+        <div
+          onClick={handleLogout}
+          className="flex items-center justify-center gap-4  py-3 border-y  px-4 cursor-pointer hover:bg-black/40"
+        >
+          <Logout color="red" size={24} />
+          <span className="text-red-500 text-lg font-bold">Logout</span>
         </div>
       </div>
     </div>

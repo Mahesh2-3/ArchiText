@@ -94,14 +94,14 @@ const Conversation = () => {
     <div className="border h-full bg-(--color-secondary) flex flex-col relative">
       {mounted && !projectId && (
         <div className="z-50 absolute w-full h-full backdrop-blur-md bg-black/40 flex items-center justify-center p-6 text-center text-white font-medium">
-          Select a Project or Create a New One to start Conversation
+          Start sharing your thoughts
         </div>
       )}
       {/* Chat List */}
       <div className="grow overflow-y-auto mb-4 p-4">
         {conversation.length === 0 ? (
           <div className="h-full flex items-center justify-center text-gray-400 italic">
-            Start a conversation to generate architecture...
+            Start sharing your thoughts
           </div>
         ) : (
           <ul className="flex flex-col">
@@ -113,6 +113,9 @@ const Conversation = () => {
                 <MessageCard content={content} isUser={role === "user"} />
               </li>
             ))}
+            {chatLoading && (
+              <div className="w-3 h-3 rounded-full bg-(--color-last) animate-pulse"></div>
+            )}
           </ul>
         )}
       </div>

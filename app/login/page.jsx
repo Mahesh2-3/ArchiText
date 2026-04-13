@@ -33,6 +33,7 @@ const LoginPage = () => {
       const data = await response.json();
 
       if (response.ok) {
+        console.log(data);
         setUser(data.user);
         router.push("/home");
       } else {
