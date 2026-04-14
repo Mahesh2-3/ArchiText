@@ -26,7 +26,10 @@ export default function Home() {
   // Fetching architecture data from the params in the url (pid, cid)
   useEffect(() => {
     const fetchArchitecture = async () => {
-      if (!pid) return;
+      if (!pid) {
+        setArchitectureData(null);
+        return;
+      }
       const res = await getArchitecture(pid);
       if (res?.success) {
         setArchitectureData(res.data);

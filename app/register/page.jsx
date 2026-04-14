@@ -5,6 +5,10 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { register } from "../api/Auth";
 import { Eye, EyeSlash } from "../Helpers/icons";
+import { getPasswordStrength } from "../Helpers/getPasswordStrength";
+import Background from "../Components/Background";
+import { toast, ToastContainer } from "react-toastify";
+import { toastOptions } from "../Helpers/toast";
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -15,35 +19,42 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     try {
       const res = await register(name, email, password);
 
       if (res.success) {
         setSuccess(true);
+        toast.success(
+          "Registration successful! Redirecting to login...",
+          toastOptions(),
+        );
         setTimeout(() => {
           router.push("/login");
         }, 2000);
       } else {
-        setError(res.error || "Registration failed");
+        toast.error(
+          "Registration failed. Please try again later",
+          toastOptions(),
+        );
       }
     } catch (err) {
-      setError("Connection error. Please try again later.");
+      toast.error("Connection error. Please try again later.", toastOptions());
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-(--color-main) p-4">
-      <div className="w-full max-w-md space-y-8 rounded-2xl border-2 border-(--color-secondary) bg-(--color-main) p-8 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] transition-all hover:shadow-[0_20px_50px_-12px_rgba(255,133,187,0.2)] dark:bg-(--color-main)">
+    <div className="relative flex min-h-screen w-full items-center justify-center bg-(--color-main) p-4">
+      <Background />
+      <ToastContainer />
+      <div className="w-full max-w-md space-y-8 z-10 backdrop-blur-sm rounded-2xl border-2 border-(--color-secondary) bg-(--color-main)/50 p-8 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] transition-all hover:shadow-[0_20px_50px_-12px_rgba(255,133,187,0.2)] ">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-(--color-last)">
             Join archiText
@@ -54,17 +65,6 @@ const RegisterPage = () => {
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && (
-            <div className="rounded-lg bg-red-100 p-3 text-sm text-red-600 border border-red-200">
-              {error}
-            </div>
-          )}
-          {success && (
-            <div className="rounded-lg bg-green-100 p-3 text-sm text-green-600 border border-green-200">
-              Registration successful! Redirecting to login...
-            </div>
-          )}
-
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-bold text-(--color-last) mb-1">
@@ -111,14 +111,21 @@ const RegisterPage = () => {
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-(--color-normal) hover:text-(--color-last) transition-colors cursor-pointer"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? (
-                    <EyeSlash size={20} />
-                  ) : (
-                    <Eye size={20} />
-                  )}
+                  {showPassword ? <EyeSlash size={20} /> : <Eye size={20} />}
                 </button>
               </div>
             </div>
+            {password !== "" && (
+              <div>
+                Password Strength:{" "}
+                <span
+                  style={{ color: getPasswordStrength(password).color }}
+                  className={`font-bold`}
+                >
+                  {getPasswordStrength(password).message}
+                </span>
+              </div>
+            )}
           </div>
 
           <div>

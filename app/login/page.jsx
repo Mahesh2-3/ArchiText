@@ -5,12 +5,14 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAppStore } from "../store/useAppStore";
 import { login } from "../api/Auth";
+import { toast, ToastContainer } from "react-toastify";
+import { toastOptions } from "../Helpers/toast";
+import Background from "../Components/Background";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const setSession = useAppStore((state) => state.setSession);
   const setUser = useAppStore((state) => state.setUser);
@@ -19,27 +21,34 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     try {
       const res = await login(email, password);
 
       if (res.success) {
         setUser(res.data);
-        router.push("/home");
+        toast.success(
+          "Login successful! Redirecting to home...",
+          toastOptions(),
+        );
+        setTimeout(() => {
+          router.push("/home");
+        }, 2000);
       } else {
-        setError(res.error || "Invalid credentials");
+        toast.error(res.error || "Invalid credentials", toastOptions());
       }
     } catch (err) {
-      setError("Connection error. Please try again later.");
+      toast.error("Connection error. Please try again later.", toastOptions());
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-(--color-main) p-4">
-      <div className="w-full max-w-md space-y-8 rounded-2xl border-2 border-(--color-secondary) bg-(--color-main) p-8 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] transition-all hover:shadow-[0_20px_50px_-12px_rgba(255,133,187,0.2)] dark:bg-(--color-main)">
+    <div className="relative flex min-h-screen w-full items-center  justify-center bg-(--color-main) p-4">
+      <Background />
+      <ToastContainer />
+      <div className="w-full max-w-md space-y-8 z-10  backdrop-blur-sm rounded-2xl border-2 border-(--color-secondary) bg-(--color-main)/50 p-8 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] transition-all hover:shadow-[0_20px_50px_-12px_rgba(255,133,187,0.2)] ">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-(--color-last)">
             Welcome Back
@@ -50,12 +59,6 @@ const LoginPage = () => {
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && (
-            <div className="rounded-lg bg-red-100 p-3 text-sm text-red-600 border border-red-200">
-              {error}
-            </div>
-          )}
-
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-bold text-(--color-last) mb-1">
