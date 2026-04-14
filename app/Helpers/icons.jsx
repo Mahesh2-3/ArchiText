@@ -5,6 +5,7 @@ import {
 } from "react-icons/ai";
 import { BiLogOut as Logout } from "react-icons/bi";
 import { BsMoonStars as Moon } from "react-icons/bs";
+import { CiSettings as Settings } from "react-icons/ci";
 import {
   FaAngleDown as AngleDown,
   FaRegPaperPlane as PaperPlane,
@@ -18,6 +19,14 @@ import {
   FaProjectDiagram as ProjectDiagram,
   FaComments as Comments,
   FaSyncAlt as SyncAlt,
+  FaUser as User,
+  FaHistory as History,
+  FaRobot as Robot,
+  FaDatabase as Database,
+  FaShieldAlt as ShieldAlt,
+  FaFileContract as FileContract,
+  FaChevronRight as ChevronRight,
+  FaArrowLeft as ArrowLeft,
 } from "react-icons/fa";
 
 export {
@@ -38,4 +47,13 @@ export {
   ProjectDiagram,
   Comments,
   SyncAlt,
+  User,
+  History,
+  Robot,
+  Database,
+  ShieldAlt,
+  FileContract,
+  ChevronRight,
+  ArrowLeft,
+  Settings,
 };

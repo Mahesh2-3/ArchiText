@@ -5,7 +5,11 @@ import { useRouter } from "next/navigation";
 
 import MessageCard from "../Components/MessageCard";
 import { PaperPlane } from "../Helpers/icons";
-import { sendMessage, getConversationMessages } from "../api/Conversations";
+import {
+  sendMessage,
+  getConversationMessages,
+  getTitles,
+} from "../api/Conversations";
 import { useAppStore } from "../store/useAppStore";
 
 const Conversation = () => {
@@ -18,6 +22,10 @@ const Conversation = () => {
 
   // Data
   const [conversation, setConversation] = useState([]);
+  const [titles, setTitles] = useState({
+    conversationTitle: "",
+    projectTitle: "",
+  });
   const projectId = useAppStore((state) => state.currentProject);
   const conversationId = useAppStore((state) => state.currentConversation);
   const setArchitectureData = useAppStore((state) => state.setArchitectureData);
@@ -28,9 +36,22 @@ const Conversation = () => {
   useEffect(() => {
     // fetch conversation messages
     const fetchConversation = async () => {
+      console.log(conversationId);
+      if (!conversationId) {
+        setConversation([]);
+        setTitles({
+          conversationTitle: "",
+          projectTitle: "",
+        });
+        return;
+      }
       const res = await getConversationMessages(conversationId);
+      const data = await getTitles(conversationId);
       if (res.success) {
         setConversation(res.data || []);
+      }
+      if (data.success) {
+        setTitles(data.data);
       }
       setMounted(true);
     };
@@ -85,6 +106,14 @@ const Conversation = () => {
 
   return (
     <div className="border h-full bg-(--color-secondary) flex flex-col relative">
+      {/* titles */}
+      {titles.projectTitle && titles.conversationTitle && (
+        <div className="p-4 text-sm flex items-center gap-2 text-(--color-last)">
+          <p className="font-medium">{titles.projectTitle}</p>
+          <p>/</p>
+          <p>{titles.conversationTitle}</p>
+        </div>
+      )}
       {mounted && !projectId && (
         <div className="z-50 absolute w-full h-full backdrop-blur-md bg-black/40 flex items-center justify-center p-6 text-center text-white font-medium">
           Start sharing your thoughts
@@ -126,7 +155,7 @@ const Conversation = () => {
         <button
           type="submit"
           disabled={chatLoading}
-          className="px-4 py-3 rounded-lg bg-(--color-last) text-white font-semibold hover:opacity-90 transition cursor-pointer"
+          className="px-4 py-3 rounded-lg bg-(--color-last) text-(--color-secondary) font-semibold hover:opacity-90 transition cursor-pointer"
         >
           <PaperPlane />
         </button>

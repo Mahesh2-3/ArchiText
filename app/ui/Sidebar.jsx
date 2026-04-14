@@ -6,7 +6,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import ThemeButton from "../Components/ThemeButton";
-import { Menu, Close, AngleDown, PlusCircle, Logout } from "../Helpers/icons";
+import {
+  Menu,
+  Close,
+  AngleDown,
+  PlusCircle,
+  Logout,
+  Settings,
+} from "../Helpers/icons";
 import ProjectSkeleton from "../Skeletons/ProjectSkeleton";
 import ConversationSkeleton from "../Skeletons/ConversationSkeleton";
 import { useAppStore } from "../store/useAppStore";
@@ -77,8 +84,15 @@ const Sidebar = ({ state, func, func2 }) => {
 
   return (
     <div className="h-full border-r border-gray-300 dark:border-gray-700 bg-(--color-secondary) flex flex-col relative">
+      {/* Website Name */}
+      <div className="px-4 pt-4 pb-2 shrink-0">
+        <h1 className="text-xl font-bold text-(--text-normal) tracking-tight">
+          ArchiText
+        </h1>
+      </div>
+
       {/* Header / Actions */}
-      <div className="flex justify-between items-center p-4 shrink-0">
+      <div className="flex justify-between items-center px-4 pb-4 shrink-0">
         <ThemeButton />
         <button
           onClick={func}
@@ -142,7 +156,11 @@ const Sidebar = ({ state, func, func2 }) => {
                           conversations.map((conversation) => (
                             <li
                               key={conversation._id}
-                              className="text-sm text-(--text-normal)/80 hover:text-(--text-normal) hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer transition truncate py-1.5 px-2 rounded-r-md"
+                              className={`text-sm text-(--text-normal)/80 hover:text-(--text-normal) hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer transition truncate py-1.5 px-2 rounded-r-md ${
+                                currentConversation === conversation._id
+                                  ? "bg-(--color-main)/50"
+                                  : ""
+                              }`}
                             >
                               <Link
                                 href={`/home?pid=${project._id}&cid=${conversation._id}`}
@@ -160,7 +178,7 @@ const Sidebar = ({ state, func, func2 }) => {
         )}
       </div>
 
-      {/* User Profile Container - Sticky Bottom */}
+      {/* User Profile and Logout Container - Sticky Bottom */}
       <div className="border-t border-gray-300 dark:border-gray-700 shrink-0 flex flex-col bg-black/5 dark:bg-white/5">
         <div className="flex items-center gap-3 p-4">
           <div className="w-10 h-10 rounded-full bg-gray-400 dark:bg-gray-600 shrink-0 overflow-hidden flex items-center justify-center p-1">
@@ -180,6 +198,15 @@ const Sidebar = ({ state, func, func2 }) => {
               {user?.email}
             </span>
           </div>
+          <Link
+            href="/settings"
+            className="flex items-center gap-3 p-4 cursor-pointer hover:bg-black/40"
+          >
+            <Settings
+              size={25}
+              className="text-(--text-normal)/30 group-hover:text-(--text-normal)/60 group-hover:translate-x-0.5 transition-all shrink-0"
+            />
+          </Link>
         </div>
         <div
           onClick={handleLogout}

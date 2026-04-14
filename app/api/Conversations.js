@@ -5,7 +5,12 @@ export const sendMessage = async (id, userMsg, projectId) => {
     if (!conversationId) {
       const convoRes = await createConversation(projectId);
       if (!convoRes.success) {
-        return { success: false, data: null, conversationId: null, error: convoRes.error };
+        return {
+          success: false,
+          data: null,
+          conversationId: null,
+          error: convoRes.error,
+        };
       }
       conversationId = convoRes.data._id;
     }
@@ -24,13 +29,23 @@ export const sendMessage = async (id, userMsg, projectId) => {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      return { success: false, data: null, conversationId, error: errorData.message || "Failed to fetch from AI" };
+      return {
+        success: false,
+        data: null,
+        conversationId,
+        error: errorData.message || "Failed to fetch from AI",
+      };
     }
 
     const result = await response.json();
     return { success: true, data: result.data, conversationId };
   } catch (error) {
-    return { success: false, data: null, conversationId: id, error: error.message };
+    return {
+      success: false,
+      data: null,
+      conversationId: id,
+      error: error.message,
+    };
   }
 };
 
@@ -47,7 +62,11 @@ const createConversation = async (projectId) => {
     });
 
     if (!response.ok) {
-      return { success: false, data: null, error: "Failed to create conversation" };
+      return {
+        success: false,
+        data: null,
+        error: "Failed to create conversation",
+      };
     }
 
     const result = await response.json();
@@ -73,7 +92,11 @@ export const getConversations = async (projectId) => {
     );
 
     if (!response.ok) {
-      return { success: false, data: [], error: "Failed to fetch conversations" };
+      return {
+        success: false,
+        data: [],
+        error: "Failed to fetch conversations",
+      };
     }
 
     const result = await response.json();
@@ -99,6 +122,30 @@ export const getConversationMessages = async (conversationId) => {
 
     if (!response.ok) {
       return { success: false, data: [], error: "Failed to fetch messages" };
+    }
+
+    const result = await response.json();
+    return { success: true, data: result.data };
+  } catch (error) {
+    return { success: false, data: [], error: error.message };
+  }
+};
+
+export const getTitles = async (conversationId) => {
+  if (!conversationId) {
+    return { success: false, data: [], error: "Conversation ID is required" };
+  }
+  try {
+    const response = await fetch(
+      `http://localhost:5000/conversation/${conversationId}/titles`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    );
+
+    if (!response.ok) {
+      return { success: false, data: [], error: "Failed to fetch titles" };
     }
 
     const result = await response.json();
