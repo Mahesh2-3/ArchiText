@@ -66,14 +66,14 @@ export default function Home() {
       {!isSideBarOpen && (
         <button
           onClick={toggleSideBar}
-          className="absolute top-4 left-4 z-50 p-2 rounded-md bg-gray-200/50 hover:bg-(--color-secondary) border-2 shadow-lg transition cursor-pointer text-2xl text-(--color-text)"
+          className="absolute top-4 left-4 z-50 p-2 rounded-md bg-(--bg-card) hover:opacity-90 border border-(--border) shadow-lg transition cursor-pointer text-2xl"
         >
-          <Menu />
+          <Menu className="text-(--text-main)" />
         </button>
       )}
       {isCreateProjectOpen && <CreateProject onClose={toggleCreateProject} />}
       <Group
-        className="h-screen w-full flex gap-0 bg-(--color-main)"
+        className="h-screen w-full flex gap-0 bg-(--bg-main)"
         orientation="horizontal"
       >
         <Panel defaultSize={15} minSize="15%" hidden={!isSideBarOpen}>

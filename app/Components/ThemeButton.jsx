@@ -42,10 +42,10 @@ const ThemeButton = () => {
       onClick={cycleTheme}
       className={`
                 group relative p-2.5 rounded-2xl cursor-pointer 
-                bg-(--secondary) text-(--text-light) 
+                bg-(--bg-side) text-(--text-light) 
                 hover:opacity-90 active:scale-95
                 transition-all duration-300 ease-out
-                border-2 border-(--neutral)/10
+                border border-(--border)
                 shadow-sm hover:shadow-md
                 overflow-hidden
             `}
@@ -59,7 +59,7 @@ const ThemeButton = () => {
                 flex items-center justify-center
             `}
       >
-        <Palette className="text-xl" />
+        <Palette className="text-xl text-(--text-light)" />
       </div>
 
       {/* Subtle glow effect using accent color */}

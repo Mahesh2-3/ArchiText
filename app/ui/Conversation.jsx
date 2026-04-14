@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import MessageCard from "../Components/MessageCard";
-import { PaperPlane } from "../Helpers/icons";
+import { AngleDown, PaperPlane } from "../Helpers/icons";
 import {
   sendMessage,
   getConversationMessages,
@@ -113,17 +113,17 @@ const Conversation = () => {
   };
 
   return (
-    <div className="border h-full bg-(--color-secondary) flex flex-col relative">
+    <div className="h-full bg-(--bg-main) flex flex-col relative">
       {/* titles */}
       {titles.projectTitle && titles.conversationTitle && (
-        <div className="p-4 text-sm flex items-center gap-2 text-(--color-last)">
-          <p className="font-medium">{titles.projectTitle}</p>
-          <p>/</p>
-          <p>{titles.conversationTitle}</p>
+        <div className="p-4 text-sm flex items-center gap-2 text-(--text-main) border-b border-(--border)">
+          <p className="font-semibold">{titles.projectTitle}</p>
+          <AngleDown className="-rotate-90" />
+          <p className="font-bold">{titles.conversationTitle}</p>
         </div>
       )}
       {mounted && !projectId && (
-        <div className="z-50 absolute w-full h-full backdrop-blur-md bg-black/40 flex items-center justify-center p-6 text-center text-white font-medium">
+        <div className="z-50 absolute w-full h-full backdrop-blur-md bg-(--bg-main)/80 flex items-center justify-center p-6 text-center text-(--text-main) font-medium">
           Start sharing your thoughts
         </div>
       )}
@@ -144,26 +144,26 @@ const Conversation = () => {
               </li>
             ))}
             {chatLoading && (
-              <div className="w-3 h-3 rounded-full bg-(--color-last) animate-pulse"></div>
+              <div className="w-3 h-3 rounded-full bg-(--accent) animate-pulse"></div>
             )}
           </ul>
         )}
       </div>
 
       {/* Input Form */}
-      <form onSubmit={handleSend} className="p-4 flex gap-2 shrink-0">
+      <form onSubmit={handleSend} className="p-4 flex gap-2 shrink-0 border-t border-(--border) bg-(--bg-side)/30">
         <input
           type="text"
           value={input}
           disabled={chatLoading}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your message..."
-          className="grow p-3 rounded-lg border border-gray-500 focus:outline-none focus:ring-1 focus:ring-(--color-last) bg-transparent outline-none text-(--text-normal)"
+          className="grow p-3 rounded-lg border border-(--border) bg-(--bg-side) focus:border-(--accent) focus:outline-none outline-none text-(--text-main) transition-all"
         />
         <button
           type="submit"
           disabled={chatLoading}
-          className="px-4 py-3 rounded-lg bg-(--color-last) text-(--color-secondary) font-semibold hover:opacity-90 transition cursor-pointer"
+          className="px-4 py-3 rounded-lg bg-(--accent) text-(--accent-text) font-semibold hover:opacity-90 transition active:scale-95 cursor-pointer shadow-md"
         >
           <PaperPlane />
         </button>

@@ -49,7 +49,7 @@ export default function MindMap() {
   );
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full border-x border-(--border)">
       <ReactFlow
         nodes={nodes}
         edges={edges}

@@ -55,15 +55,15 @@ const RegisterPage = () => {
     <div className="relative flex min-h-screen w-full items-center justify-center p-4">
       <Background />
       <ToastContainer />
-      <div className="w-full max-w-md space-y-8 z-10 bg-(--neutral)/50  backdrop-blur-sm rounded-md p-8">
+      <div className="w-full max-w-md space-y-8 z-10 bg-(--bg-side)/80 backdrop-blur-md rounded-2xl border border-(--border) p-8 shadow-2xl">
         <div className="text-center relative">
           <div className="absolute -top-4 -right-4">
             <ThemeButton />
           </div>
-          <h1 className="text-4xl font-extrabold tracking-tight text-(--text-dark)">
+          <h1 className="text-4xl font-extrabold tracking-tight text-(--text-main)">
             Join archiText
           </h1>
-          <p className="mt-2 text-sm text-(--text-dark)/70 font-medium">
+          <p className="mt-2 text-sm text-(--text-muted) font-medium">
             Create an account to start building architectures
           </p>
         </div>
@@ -71,7 +71,7 @@ const RegisterPage = () => {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-bold text-(--text-dark) mb-1">
+              <label className="block text-sm font-bold text-(--text-main) mb-1">
                 Full Name
               </label>
               <input
@@ -79,12 +79,12 @@ const RegisterPage = () => {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-md border-2 border-(--text-dark)/30 bg-(--primary)/30 p-3 outline-none transition-all focus:border-(--accent) focus:ring-4 focus:ring-(--accent)/30 text-(--text-light)/80"
+                className="w-full rounded-md border border-(--border) bg-(--bg-main) p-3 outline-none transition-all focus:border-(--accent) focus:ring-4 focus:ring-(--accent)/20 text-(--text-main)"
                 placeholder="Jane Doe"
               />
             </div>
             <div>
-              <label className="block text-sm font-bold text-(--text-dark) mb-1">
+              <label className="block text-sm font-bold text-(--text-main) mb-1">
                 Email Address
               </label>
               <input
@@ -92,7 +92,7 @@ const RegisterPage = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-md border-2 border-(--text-dark)/30 bg-(--primary)/30 p-3 outline-none transition-all focus:border-(--accent) focus:ring-4 focus:ring-(--accent)/30 text-(--text-light)/80"
+                className="w-full rounded-md border border-(--border) bg-(--bg-main) p-3 outline-none transition-all focus:border-(--accent) focus:ring-4 focus:ring-(--accent)/20 text-(--text-main)"
                 placeholder="jane@example.com"
               />
             </div>
@@ -106,13 +106,13 @@ const RegisterPage = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full rounded-md border-2 border-(--text-dark)/30 bg-(--primary)/30 p-3 pr-11 outline-none transition-all focus:border-(--accent) focus:ring-4 focus:ring-(--accent)/30 text-(--text-light)/80"
+                className="w-full rounded-md border border-(--border) bg-(--bg-main) p-3 pr-11 outline-none transition-all focus:border-(--accent) focus:ring-4 focus:ring-(--accent)/20 text-(--text-main)"
                   placeholder="password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((prev) => !prev)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-(--text-dark)/50 hover:text-(--text-dark) transition-colors cursor-pointer"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-(--text-muted) hover:text-(--text-main) transition-colors cursor-pointer"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? <EyeSlash size={20} /> : <Eye size={20} />}
@@ -136,7 +136,7 @@ const RegisterPage = () => {
             <button
               type="submit"
               disabled={loading || success}
-              className="group relative flex w-full justify-center rounded-md bg-(--accent) py-3 px-4 text-sm font-bold text-(--text-light) transition-all hover:opacity-90 active:scale-95 disabled:opacity-50 cursor-pointer shadow-lg hover:shadow-xl"
+              className="group relative flex w-full justify-center rounded-md bg-(--accent) py-3 px-4 text-sm font-bold text-(--accent-text) transition-all hover:opacity-90 active:scale-95 disabled:opacity-50 cursor-pointer shadow-lg hover:shadow-xl"
             >
               {loading ? (
                 <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
@@ -148,11 +148,11 @@ const RegisterPage = () => {
         </form>
 
         <div className="text-center">
-          <p className="text-sm text-(--text-dark)/60 font-medium">
+          <p className="text-sm text-(--text-muted) font-medium">
             Already have an account?{" "}
             <Link
               href="/login"
-              className="font-bold text-(--secondary) hover:underline transition-all"
+              className="font-bold text-(--accent) hover:underline transition-all"
             >
               Log in here
             </Link>

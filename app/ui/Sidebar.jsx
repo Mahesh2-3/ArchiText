@@ -81,20 +81,21 @@ const Sidebar = ({ state, func, func2 }) => {
   };
 
   return (
-    <div className="h-full border-r border-gray-300 dark:border-gray-700 bg-(--color-secondary) flex flex-col relative">
+    <div className="h-full bg-(--bg-side) flex flex-col relative border-r border-(--border)">
       {/* Website Name */}
       <div className="px-4 pt-4 pb-2 shrink-0">
-        <h1 className="text-xl font-bold text-(--text-normal) tracking-tight">
+        <h1 className="text-xl font-bold text-(--text-main) tracking-tight">
           ArchiText
         </h1>
       </div>
 
       {/* Header / Actions */}
       <div className="flex justify-between items-center px-4 pb-4 shrink-0">
+        {/* <ThemeButton /> */}
         <ThemeButton />
         <button
           onClick={func}
-          className="p-1 rounded-md hover:bg-black/10 dark:hover:bg-white/10 transition cursor-pointer text-2xl text-(--text-normal)"
+          className="p-1 rounded-md transition cursor-pointer text-2xl text-(--text-main) hover:bg-(--accent)/10"
         >
           {state ? <Close /> : <Menu />}
         </button>
@@ -104,7 +105,7 @@ const Sidebar = ({ state, func, func2 }) => {
       <div className="px-4 pb-4 shrink-0">
         <button
           onClick={func2}
-          className="w-full py-2 px-4 rounded-md border border-gray-500 dark:border-gray-500 hover:bg-black/5 dark:hover:bg-white/5 transition flex justify-between items-center text-(--text-normal) font-medium cursor-pointer"
+          className="w-full py-2 px-4 rounded-md border border-(--border) bg-(--accent) hover:opacity-90 transition flex justify-between items-center text-(--accent-text) font-medium cursor-pointer"
         >
           <span>New Project</span>
           <span className="text-xl">+</span>
@@ -116,26 +117,29 @@ const Sidebar = ({ state, func, func2 }) => {
         {isFetching.projects ? (
           <ProjectSkeleton />
         ) : (
-          <ul className="flex flex-col gap-6">
+          <ul className="flex flex-col gap-4">
             {projects &&
               projects.map((project) => (
-                <li key={project._id} className="flex flex-col gap-2">
+                <li
+                  key={project._id}
+                  className="flex flex-col gap-2 bg-(--bg-card) border border-(--border) rounded-md p-2"
+                >
                   <button
                     onClick={() => handleFetchConvo(project._id)}
-                    className="w-full flex items-center justify-between group py-1 cursor-pointer hover:bg-black/5 px-2 rounded-md"
+                    className="w-full flex items-center justify-between group py-1 cursor-pointer hover:bg-(--accent)/10 px-2 rounded-md transition"
                   >
                     <AngleDown
-                      className={`transition-transform duration-300 text-(--text-normal)/60 ${
+                      className={`transition-transform duration-300 text-(--text-muted) ${
                         currentProject === project._id ? "rotate-180" : ""
                       }`}
                     />
-                    <span className="font-bold text-(--text-normal) group-hover:text-(--text-normal)/80 transition text-left">
+                    <span className="font-bold text-(--text-main) mx-2 text-ellipsis overflow-hidden whitespace-nowrap group-hover:text-(--accent) transition text-left">
                       {project.title}
                     </span>
                     <PlusCircle
                       title="Add new Conversation"
                       onClick={() => handleFetchConvo(project._id)}
-                      className="text-(--text-normal)/60 group-hover:text-(--text-normal) transition cursor-pointer"
+                      className="text-(--text-muted) group-hover:text-(--accent) transition cursor-pointer"
                     />
                   </button>
 
@@ -144,9 +148,9 @@ const Sidebar = ({ state, func, func2 }) => {
                     <ConversationSkeleton />
                   ) : (
                     currentProject === project._id && (
-                      <ul className="flex flex-col gap-1 pl-4 ml-1 border-l-2 border-gray-400 dark:border-gray-600">
+                      <ul className="flex flex-col gap-1 pl-4 ml-1 border-l-2 border-(--border)">
                         {conversations && conversations.length === 0 && (
-                          <li className="text-sm text-(--text-normal)/50 py-1.5 px-2">
+                          <li className="text-sm text-(--text-muted) py-1.5 px-2">
                             No conversations yet
                           </li>
                         )}
@@ -154,9 +158,9 @@ const Sidebar = ({ state, func, func2 }) => {
                           conversations.map((conversation) => (
                             <li
                               key={conversation._id}
-                              className={`text-sm text-(--text-normal)/80 hover:text-(--text-normal) hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer transition truncate py-1.5 px-2 rounded-r-md ${
+                              className={`text-sm text-(--text-muted) hover:text-(--text-main) hover:bg-(--accent)/10 cursor-pointer transition truncate py-1.5 px-2 rounded-r-md ${
                                 currentConversation === conversation._id
-                                  ? "bg-(--color-main)/50"
+                                  ? "bg-(--accent)/20 text-(--text-main)"
                                   : ""
                               }`}
                             >
@@ -177,9 +181,9 @@ const Sidebar = ({ state, func, func2 }) => {
       </div>
 
       {/* User Profile and Logout Container - Sticky Bottom */}
-      <div className="border-t border-gray-300 dark:border-gray-700 shrink-0 flex flex-col bg-black/5 dark:bg-white/5">
+      <div className="border-t border-(--border) shrink-0 flex flex-col bg-(--bg-main)/30">
         <div className="flex items-center gap-3 p-4">
-          <div className="w-10 h-10 rounded-full bg-gray-400 dark:bg-gray-600 shrink-0 overflow-hidden flex items-center justify-center p-1">
+          <div className="w-10 h-10 rounded-full bg-(--bg-card) border border-(--border) shrink-0 overflow-hidden flex items-center justify-center p-1">
             <Image
               src="/vercel.svg"
               alt="Profile"
@@ -189,26 +193,26 @@ const Sidebar = ({ state, func, func2 }) => {
             />
           </div>
           <div className="flex flex-col overflow-hidden">
-            <span className="font-bold text-(--text-normal) truncate">
+            <span className="font-bold text-(--text-main) truncate">
               {user?.name}
             </span>
-            <span className="text-xs text-(--text-normal)/70 truncate">
+            <span className="text-xs text-(--text-muted) truncate">
               {user?.email}
             </span>
           </div>
           <Link
             href="/settings"
-            className="flex items-center gap-3 p-4 cursor-pointer hover:bg-black/40"
+            className="flex items-center gap-3 p-4 cursor-pointer hover:bg-(--bg-main)/50"
           >
             <Settings
               size={25}
-              className="text-(--text-normal)/30 group-hover:text-(--text-normal)/60 group-hover:translate-x-0.5 transition-all shrink-0"
+              className="text-(--text-muted) group-hover:text-(--accent) group-hover:translate-x-0.5 transition-all shrink-0"
             />
           </Link>
         </div>
         <div
           onClick={handleLogout}
-          className="flex items-center justify-center gap-4  py-3 border-y  px-4 cursor-pointer hover:bg-black/40"
+          className="flex items-center justify-center gap-4 py-3 border-y border-(--border) px-4 cursor-pointer hover:bg-red-500/10 transition-colors group"
         >
           <Logout color="red" size={24} />
           <span className="text-red-500 text-lg font-bold">Logout</span>

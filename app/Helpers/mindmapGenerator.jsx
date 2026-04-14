@@ -37,10 +37,10 @@ export const generateElements = (sourceData) => {
       <div
         className={`w-full h-full rounded-xl border-2 p-3 shadow-md flex flex-col ${
           depth === 0
-            ? "bg-(--color-last) border-(--color-normal) text-(--color-main) justify-center items-center font-extrabold text-lg"
+            ? "bg-(--accent) border-(--border) text-(--accent-text) justify-center items-center font-extrabold text-lg"
             : isParent
-              ? "bg-(--color-secondary) border-(--color-normal) text-(--color-last) justify-center items-center font-bold text-base"
-              : "bg-(--color-main) border-(--color-secondary) text-(--text-normal) font-normal text-sm"
+              ? "bg-(--bg-card) border-(--border) text-(--text-main) justify-center items-center font-bold text-base"
+              : "bg-(--bg-side) border-(--border) text-(--text-main) font-normal text-sm"
         }`}
       >
         {label}
