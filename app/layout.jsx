@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ThemeProviderClient from "./Providers/ThemeProvider";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +26,21 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex">
+        <Script id="theme-script" strategy="beforeInteractive">
+          {`(function () {
+    try {
+      const saved = localStorage.getItem("theme");
+      if (saved) {
+        document.documentElement.setAttribute("data-theme", saved);
+      } else {
+        const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.setAttribute("data-theme", systemDark ? "dark" : "light");
+      }
+    } catch (e) {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  })();`}
+        </Script>
         <ThemeProviderClient>{children}</ThemeProviderClient>
       </body>
     </html>

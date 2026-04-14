@@ -10,6 +10,8 @@ import Sidebar from "../ui/Sidebar";
 import CreateProject from "../Components/CreateProject";
 import { useAppStore } from "../store/useAppStore";
 import { getArchitecture } from "../api/Architecture";
+import { toast, ToastContainer } from "react-toastify";
+import { toastOptions } from "../Helpers/toast";
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -33,6 +35,13 @@ export default function Home() {
       const res = await getArchitecture(pid);
       if (res?.success) {
         setArchitectureData(res.data);
+      } else {
+        toast.error(
+          res.error || "You are not authorized to access this project",
+          toastOptions(),
+        );
+        // Optionally clear data or redirect
+        setArchitectureData(null);
       }
     };
 
@@ -53,6 +62,7 @@ export default function Home() {
 
   return (
     <div className="w-full h-screen shrink-0 relative">
+      <ToastContainer />
       {!isSideBarOpen && (
         <button
           onClick={toggleSideBar}

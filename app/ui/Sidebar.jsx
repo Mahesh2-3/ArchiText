@@ -44,30 +44,28 @@ const Sidebar = ({ state, func, func2 }) => {
   const setUser = useAppStore((state) => state.setUser);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setMounted(true);
-      setIsFetching({ projects: true, convo: false });
-
-      // Getting the projects
+    const fetchProjects = async () => {
+      setIsFetching((prev) => ({ ...prev, projects: true }));
       const { success, data } = await getProjects();
-      if (success) {
-        setProjects(data);
-      }
+      if (success) setProjects(data);
       setIsFetching((prev) => ({ ...prev, projects: false }));
-
-      // Getting the conversations
-      if (currentProject) {
-        setIsFetching((prev) => ({ ...prev, convo: true }));
-        const { success: MsgSuccess, data: MsgData } =
-          await getConversations(currentProject);
-        if (MsgSuccess) {
-          setConversations(MsgData);
-        }
-        setIsFetching((prev) => ({ ...prev, convo: false }));
-      }
     };
-    fetchData();
-  }, [currentProject, currentConversation, user]);
+
+    fetchProjects();
+  }, [user]); // only when user changes
+
+  useEffect(() => {
+    if (!currentProject) return;
+
+    const fetchConvos = async () => {
+      setIsFetching((prev) => ({ ...prev, convo: true }));
+      const { success, data } = await getConversations(currentProject);
+      if (success) setConversations(data);
+      setIsFetching((prev) => ({ ...prev, convo: false }));
+    };
+
+    fetchConvos();
+  }, [currentProject]); // only when project changes
 
   const handleFetchConvo = async (projectId) => {
     router.replace(`/home?pid=${projectId}`);

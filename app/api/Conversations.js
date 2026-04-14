@@ -62,10 +62,11 @@ const createConversation = async (projectId) => {
     });
 
     if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
       return {
         success: false,
         data: null,
-        error: "Failed to create conversation",
+        error: errorData.message || "Failed to create conversation",
       };
     }
 
@@ -92,10 +93,11 @@ export const getConversations = async (projectId) => {
     );
 
     if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
       return {
         success: false,
         data: [],
-        error: "Failed to fetch conversations",
+        error: errorData.message || "Failed to fetch conversations",
       };
     }
 
@@ -121,7 +123,12 @@ export const getConversationMessages = async (conversationId) => {
     );
 
     if (!response.ok) {
-      return { success: false, data: [], error: "Failed to fetch messages" };
+      const errorData = await response.json().catch(() => ({}));
+      return {
+        success: false,
+        data: [],
+        error: errorData.message || "Failed to fetch messages",
+      };
     }
 
     const result = await response.json();
@@ -145,7 +152,12 @@ export const getTitles = async (conversationId) => {
     );
 
     if (!response.ok) {
-      return { success: false, data: [], error: "Failed to fetch titles" };
+      const errorData = await response.json().catch(() => ({}));
+      return {
+        success: false,
+        data: [],
+        error: errorData.message || "Failed to fetch titles",
+      };
     }
 
     const result = await response.json();

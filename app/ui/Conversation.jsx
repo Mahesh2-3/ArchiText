@@ -11,6 +11,8 @@ import {
   getTitles,
 } from "../api/Conversations";
 import { useAppStore } from "../store/useAppStore";
+import { toast } from "react-toastify";
+import { toastOptions } from "../Helpers/toast";
 
 const Conversation = () => {
   //router for navigation
@@ -38,6 +40,7 @@ const Conversation = () => {
     const fetchConversation = async () => {
       console.log(conversationId);
       if (!conversationId) {
+        console.log("Inside the if");
         setConversation([]);
         setTitles({
           conversationTitle: "",
@@ -49,9 +52,13 @@ const Conversation = () => {
       const data = await getTitles(conversationId);
       if (res.success) {
         setConversation(res.data || []);
+      } else {
+        toast.error(res.error || "Failed to fetch messages", toastOptions());
       }
       if (data.success) {
         setTitles(data.data);
+      } else if (conversationId) {
+        toast.error(data.error || "Failed to fetch titles", toastOptions());
       }
       setMounted(true);
     };
@@ -93,6 +100,7 @@ const Conversation = () => {
       };
       setConversation([...updatedConversation, assistantMsg]);
     } else {
+      toast.error(result.error || "Failed to send message", toastOptions());
       const errorMsg = {
         role: "assistant",
         content:

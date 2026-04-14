@@ -28,6 +28,7 @@ import {
   FaChevronRight as ChevronRight,
   FaArrowLeft as ArrowLeft,
 } from "react-icons/fa";
+import { IoColorPaletteOutline as Palette } from "react-icons/io5";
 
 export {
   Moon,
@@ -56,4 +57,5 @@ export {
   ChevronRight,
   ArrowLeft,
   Settings,
+  Palette,
 };

@@ -1,12 +1,23 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ThemeButton from "./Components/ThemeButton";
 import { ArrowRight, Comments, ProjectDiagram, SyncAlt } from "./Helpers/icons";
+import { useAppStore } from "./store/useAppStore";
+import { useRouter } from "next/navigation";
 
 const LandingPage = () => {
+  const user = useAppStore((state) => state.user);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/home");
+    }
+  }, [user]);
   return (
-    <div className="min-h-screen w-full bg-(--color-main) text-(--text-normal) selection:bg-(--color-normal)/30 selection:text-inherit">
+    <div className="min-h-screen w-full bg-(--primary) text-(--text-light) selection:bg-(--color-normal)/30 selection:text-inherit">
       {/* Noise texture overlay */}
       <div
         className="fixed inset-0 pointer-events-none z-100 opacity-[0.03]"
@@ -16,28 +27,28 @@ const LandingPage = () => {
       />
 
       {/* Nav */}
-      <nav className="fixed top-0 w-full z-50 bg-(--color-main)/80 backdrop-blur-sm">
+      <nav className="fixed top-0 w-full z-50 bg-(--accent)/10 backdrop-blur-sm">
         <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
           <div className="flex justify-between h-14 items-center">
             <Link href="/" className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-(--color-last) flex items-center justify-center text-(--color-main) text-[10px] font-bold tracking-tight">
+              <div className="w-6 h-6 bg-(--accent) flex items-center justify-center text(--text-light) text-[10px] font-bold tracking-tight">
                 AT
               </div>
-              <span className="text-sm font-semibold tracking-tight text-(--text-normal)">
-                archiText
+              <span className="text-lg font-semibold tracking-tight text-(--text-light)">
+                ArchiText
               </span>
             </Link>
 
-            <div className="hidden md:flex items-center gap-6">
+            <div className="hidden md:flex items-center gap-6 font-semibold">
               <Link
                 href="#features"
-                className="text-[13px] text-(--text-normal)/50 hover:text-(--text-normal) transition-colors"
+                className="text-[13px] text(--text-light) hover:text(--text-light)/50 transition-colors"
               >
                 Features
               </Link>
               <Link
                 href="#about"
-                className="text-[13px] text-(--text-normal)/50 hover:text-(--text-normal) transition-colors"
+                className="text-[13px] text(--text-light) hover:text(--text-light)/50 transition-colors"
               >
                 About
               </Link>
@@ -45,7 +56,7 @@ const LandingPage = () => {
               <ThemeButton />
               <Link
                 href="/login"
-                className="text-[13px] font-medium px-4 py-1.5 bg-(--color-last) text-(--color-main) hover:opacity-80 transition-opacity"
+                className="text-[13px] font-medium px-4 py-1.5 bg-(--neutral) text-(--primary) hover:opacity-80 transition-opacity"
               >
                 Sign in
               </Link>
@@ -55,14 +66,14 @@ const LandingPage = () => {
               <ThemeButton />
               <Link
                 href="/login"
-                className="text-[13px] font-medium px-3 py-1 bg-(--color-last) text-(--color-main)"
+                className="text-[13px] font-medium px-3 py-1 bg-(--neutral) text-(--primary)"
               >
                 Sign in
               </Link>
             </div>
           </div>
         </div>
-        <div className="h-px bg-(--color-secondary)/60" />
+        <div className="h-px bg-(--accent)/60" />
       </nav>
 
       {/* Hero */}
@@ -70,8 +81,8 @@ const LandingPage = () => {
         <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
           {/* Eyebrow */}
           <div className="flex items-center gap-2 mb-6">
-            <div className="w-8 h-px bg-(--color-normal)" />
-            <span className="text-[11px] font-semibold tracking-[0.15em] uppercase text-(--text-normal)/40">
+            <div className="w-8 h-px bg-(--accent)" />
+            <span className="text-[11px] font-semibold tracking-[0.15em] uppercase text(--text-light)/40">
               Architecture generation tool
             </span>
           </div>
@@ -79,17 +90,17 @@ const LandingPage = () => {
           {/* Hero grid — text left, nothing right (asymmetry) */}
           <div className="max-w-[720px]">
             <h1
-              className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-bold leading-[1.05] tracking-[-0.03em] text-(--color-normal) mb-6"
+              className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-bold leading-[1.05] tracking-[-0.03em] text-(--accent) mb-6"
               style={{ fontFamily: "var(--font-geist-sans)" }}
             >
               Structure your ideas
               <br />
-              <span className="text-(--color-normal)/40">
+              <span className="text-(--accent)/70">
                 before you write a line.
               </span>
             </h1>
 
-            <p className="text-[17px] leading-[1.7] text-(--text-normal)/50 max-w-[520px] mb-10">
+            <p className="text-[17px] leading-[1.7] text(--text-light)/50 max-w-[520px] mb-10">
               archiText turns conversations into structured project
               architectures. Describe what you&apos;re building and get schemas,
               APIs, file trees, and tech stacks back instantly.
@@ -98,14 +109,14 @@ const LandingPage = () => {
             <div className="flex items-center gap-4">
               <Link
                 href="/login"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-(--color-last) text-(--color-main) text-[14px] font-semibold hover:opacity-90 transition-opacity group"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-(--neutral) text-(--primary) text-[14px] font-semibold hover:opacity-90 transition-opacity group"
               >
                 Start building
                 <ArrowRight className="text-xs group-hover:translate-x-0.5 transition-transform" />
               </Link>
               <Link
                 href="#features"
-                className="text-[14px] font-medium text-(--text-normal)/40 hover:text-(--text-normal) transition-colors underline underline-offset-4 decoration-(--color-secondary) hover:decoration-(--color-normal)"
+                className="text-[14px] font-medium text-(--text-light)/40 hover:text-(--text-light) transition-colors underline underline-offset-4"
               >
                 See how it works
               </Link>
@@ -139,7 +150,7 @@ const LandingPage = () => {
       </section>
 
       {/* Divider strip */}
-      <div className="h-px bg-(--color-secondary)" />
+      <div className="h-px bg-(--accent)/20" />
 
       {/* Features */}
       <section id="features" className="py-24 md:py-32">
@@ -147,17 +158,17 @@ const LandingPage = () => {
           {/* Section header — left aligned */}
           <div className="mb-20 max-w-[480px]">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-px bg-(--color-normal)" />
-              <span className="text-[11px] font-semibold tracking-[0.15em] uppercase text-(--text-normal)/40">
+              <div className="w-8 h-px bg-(--accent)" />
+              <span className="text-[11px] font-semibold tracking-[0.15em] uppercase text(--text-light)/40">
                 Capabilities
               </span>
             </div>
-            <h2 className="text-[28px] md:text-[36px] font-bold leading-[1.15] tracking-[-0.02em] mb-3 text-(--text-normal)">
+            <h2 className="text-[28px] md:text-[36px] font-bold leading-[1.15] tracking-[-0.02em] mb-3 text(--text-light)">
               Everything you need to
               <br />
               go from idea to structure.
             </h2>
-            <p className="text-[15px] text-(--text-normal)/50 leading-relaxed">
+            <p className="text-[15px] text(--text-light)/50 leading-relaxed">
               Three core capabilities that replace hours of planning with
               seconds of conversation.
             </p>
@@ -166,55 +177,59 @@ const LandingPage = () => {
           {/* Feature blocks — asymmetric grid */}
           <div className="grid md:grid-cols-12 gap-6">
             {/* Large feature — Mindmap */}
-            <div className="md:col-span-7 border border-(--color-secondary) p-8 md:p-10 group">
+            <div className="md:col-span-7 border border-(--secondary) p-8 md:p-10 group">
               <div className="flex items-center gap-3 mb-6">
-                <ProjectDiagram className="text-(--color-normal) text-lg" />
-                <span className="text-[11px] font-bold tracking-[0.12em] uppercase text-(--text-normal)/40">
+                <ProjectDiagram className="text-(--accent) text-lg" />
+                <span className="text-[11px] font-bold tracking-[0.12em] uppercase text(--text-light)/40">
                   01 — Visual mindmap
                 </span>
               </div>
-              <h3 className="text-[22px] font-bold tracking-[-0.01em] mb-3 text-(--color-normal)">
+              <h3 className="text-[22px] font-bold tracking-[-0.01em] mb-3 text-(--accent)">
                 Your architecture, visualized
               </h3>
-              <p className="text-[15px] text-(--text-normal)/50 leading-[1.7] max-w-[420px] mb-8">
+              <p className="text-[15px] text(--text-light)/50 leading-[1.7] max-w-[420px] mb-8">
                 Every conversation generates an interactive mindmap and a
                 bird&apos;s-eye view of your entire project. See how schemas,
                 APIs, tech stack choices, and file structures connect and depend
                 on each other in real time.
               </p>
-              <div className="h-px bg-(--color-secondary) group-hover:bg-(--color-normal)/20 transition-colors" />
+              <div className="h-px bg-(--secondary) group-hover:bg-(--accent)/20 transition-colors" />
             </div>
 
             {/* Stacked small features */}
             <div className="md:col-span-5 flex flex-col gap-6">
-              <div className="border border-(--color-secondary) p-8 flex-1 group">
+              <div className="border border-(--secondary) p-8 flex-1 group">
                 <div className="flex items-center gap-3 mb-6">
-                  <Comments className="text-(--color-last) text-base" />
-                  <span className="text-[11px] font-bold tracking-[0.12em] uppercase text-(--text-normal)/40">
+                  <span className="text(--text-light) text-base">
+                    <Comments />
+                  </span>
+                  <span className="text-[11px] font-bold tracking-[0.12em] uppercase text(--text-light)/40">
                     02 — Chat-driven
                   </span>
                 </div>
-                <h3 className="text-[18px] font-bold tracking-[-0.01em] mb-2 text-(--color-normal)">
+                <h3 className="text-[18px] font-bold tracking-[-0.01em] mb-2 text-(--accent)">
                   Describe, don&apos;t configure
                 </h3>
-                <p className="text-[14px] text-(--text-normal)/50 leading-[1.7]">
+                <p className="text-[14px] text(--text-light)/50 leading-[1.7]">
                   Talk to archiText like a colleague. Explain what you&apos;re
                   building and the AI returns schemas, endpoints, and a full
                   tech stack and reflected instantly on your mindmap.
                 </p>
               </div>
 
-              <div className="border border-(--color-secondary) p-8 flex-1 group">
+              <div className="border border-(--secondary) p-8 flex-1 group">
                 <div className="flex items-center gap-3 mb-6">
-                  <SyncAlt className="text-(--color-last) text-base" />
-                  <span className="text-[11px] font-bold tracking-[0.12em] uppercase text-(--text-normal)/40">
+                  <span className="text(--text-light) text-base">
+                    <SyncAlt />
+                  </span>
+                  <span className="text-[11px] font-bold tracking-[0.12em] uppercase text(--text-light)/40">
                     03 — Iterative
                   </span>
                 </div>
-                <h3 className="text-[18px] font-bold tracking-[-0.01em] mb-2 text-(--color-normal)">
+                <h3 className="text-[18px] font-bold tracking-[-0.01em] mb-2 text-(--accent)">
                   Refine as you think
                 </h3>
-                <p className="text-[14px] text-(--text-normal)/50 leading-[1.7]">
+                <p className="text-[14px] text(--text-light)/50 leading-[1.7]">
                   Add constraints, swap technologies, restructure modules. Each
                   follow-up updates the mindmap while preserving your full
                   conversation history.
@@ -228,9 +243,9 @@ const LandingPage = () => {
       {/* CTA */}
       <section id="about" className="pb-24 md:pb-32">
         <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
-          <div className="border border-(--color-secondary) bg-(--color-last) text-(--color-main) p-10 md:p-16 relative overflow-hidden">
+          <div className="border border-(--secondary) bg-(--neutral) text-(--primary) p-10 md:p-16 relative overflow-hidden">
             {/* Subtle accent line */}
-            <div className="absolute top-0 left-0 w-full h-[2px] bg-linear-to-r from-(--color-normal) via-(--color-normal)/40 to-transparent" />
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-linear-to-r from-(--accent) via-(--accent)/40 to-transparent" />
 
             <div className="relative z-10 flex flex-col md:flex-row md:items-end md:justify-between gap-10">
               <div className="max-w-[480px]">
@@ -249,7 +264,7 @@ const LandingPage = () => {
 
               <Link
                 href="/login"
-                className="inline-flex items-center gap-2 px-8 py-3.5 bg-(--color-main) text-(--color-last) text-[14px] font-bold hover:opacity-90 transition-colors group shrink-0 self-start md:self-auto"
+                className="inline-flex items-center gap-2 px-8 py-3.5 bg-(--primary) text-(--text-light) text-[14px] font-bold hover:opacity-90 transition-colors group shrink-0 self-start md:self-auto"
               >
                 Get started
                 <ArrowRight className="text-xs group-hover:translate-x-0.5 transition-transform" />
@@ -262,38 +277,38 @@ const LandingPage = () => {
       {/* Footer */}
       <footer className="pb-8">
         <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
-          <div className="h-px bg-(--color-secondary) mb-8" />
+          <div className="h-px bg-(--secondary) mb-8" />
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
-                <div className="w-5 h-5 bg-(--color-last) flex items-center justify-center text-(--color-main) text-[8px] font-bold">
+                <div className="w-5 h-5 bg-(--neutral) flex items-center justify-center text-(--primary) text-[8px] font-bold">
                   AT
                 </div>
-                <span className="text-[13px] font-semibold tracking-tight text-(--text-normal)/40">
+                <span className="text-[13px] font-semibold tracking-tight text(--text-light)/40">
                   archiText
                 </span>
               </div>
-              <span className="text-[12px] text-(--text-normal)/30">
+              <span className="text-[12px] text(--text-light)/30">
                 © {new Date().getFullYear()}
               </span>
             </div>
 
-            <div className="flex gap-6 text-[12px] text-(--text-normal)/40">
+            <div className="flex gap-6 text-[12px] text(--text-light)/40">
               <Link
                 href="#"
-                className="hover:text-(--text-normal) transition-colors"
+                className="hover:text(--text-light) transition-colors"
               >
                 Privacy
               </Link>
               <Link
                 href="#"
-                className="hover:text-(--text-normal) transition-colors"
+                className="hover:text(--text-light) transition-colors"
               >
                 Terms
               </Link>
               <Link
                 href="#"
-                className="hover:text-(--text-normal) transition-colors"
+                className="hover:text(--text-light) transition-colors"
               >
                 GitHub
               </Link>

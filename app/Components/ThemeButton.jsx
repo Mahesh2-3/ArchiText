@@ -1,38 +1,71 @@
-'use client'
-import { useTheme } from "next-themes";
+"use client";
 import { useEffect, useState } from "react";
-import { Moon, Sun } from "../Helpers/icons";
+import { Palette } from "../Helpers/icons";
+import { useThemeStore } from "../store/useThemeStore";
+
+const themes = [
+  "light",
+  "forest-vibes",
+  "sunset",
+  "earth",
+  "ocean",
+  "night",
+  "vintage",
+];
 
 const ThemeButton = () => {
-    const { theme, setTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useThemeStore();
+  const [mounted, setMounted] = useState(false);
+  const [isRotating, setIsRotating] = useState(false);
 
-    // Prevent hydration mismatch by waiting until component mounts
-    useEffect(() => {
-        // eslint-disable-next-line
-        setMounted(true);
-    }, []);
+  // Prevent hydration mismatch by waiting until component mounts
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-    if (!mounted) {
-        // Render a placeholder with similar dimensions to prevent layout shift
-        return <div className="w-[36px] h-[36px] p-2" />;
-    }
+  const cycleTheme = () => {
+    setIsRotating(true);
+    const currentIndex = themes.indexOf(theme);
+    const nextIndex = (currentIndex + 1) % themes.length;
+    setTheme(themes[nextIndex]);
 
-    return (
-        <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="p-2 rounded-full cursor-pointer bg-neutral-200 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-colors"
-            aria-label="Toggle Theme"
-        >
-            {theme === "dark" ? (
-                // Moon Icon
-                <Moon />
-            ) : (
-                // Sun Icon
-                <Sun />
-            )}
-        </button>
-    );
+    // Reset rotation state after animation duration
+    setTimeout(() => setIsRotating(false), 500);
+  };
+
+  if (!mounted) {
+    return <div className="w-[44px] h-[44px] p-2" />;
+  }
+
+  return (
+    <button
+      onClick={cycleTheme}
+      className={`
+                group relative p-2.5 rounded-2xl cursor-pointer 
+                bg-(--secondary) text-(--text-light) 
+                hover:opacity-90 active:scale-95
+                transition-all duration-300 ease-out
+                border-2 border-(--neutral)/10
+                shadow-sm hover:shadow-md
+                overflow-hidden
+            `}
+      aria-label="Cycle Theme"
+      title={`Current theme: ${theme}`}
+    >
+      <div
+        className={`
+                transition-transform duration-500 ease-in-out
+                ${isRotating ? "rotate-360 scale-110" : "rotate-0 scale-100"}
+                flex items-center justify-center
+            `}
+      >
+        <Palette className="text-xl" />
+      </div>
+
+      {/* Subtle glow effect using accent color */}
+      <div className="absolute inset-0 bg-(--accent)/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+    </button>
+  );
 };
 
 export default ThemeButton;

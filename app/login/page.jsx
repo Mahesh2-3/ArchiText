@@ -8,6 +8,7 @@ import { login } from "../api/Auth";
 import { toast, ToastContainer } from "react-toastify";
 import { toastOptions } from "../Helpers/toast";
 import Background from "../Components/Background";
+import ThemeButton from "../Components/ThemeButton";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -45,15 +46,15 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="relative flex min-h-screen w-full items-center  justify-center bg-(--color-main) p-4">
+    <div className="relative flex min-h-screen w-full items-center  justify-center p-4">
       <Background />
       <ToastContainer />
-      <div className="w-full max-w-md space-y-8 z-10  backdrop-blur-sm rounded-2xl border-2 border-(--color-secondary) bg-(--color-main)/50 p-8 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] transition-all hover:shadow-[0_20px_50px_-12px_rgba(255,133,187,0.2)] ">
+      <div className="w-full max-w-md space-y-8 z-10 bg-(--neutral)/50  backdrop-blur-sm rounded-md p-8">
         <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight text-(--color-last)">
+          <h1 className="text-4xl font-extrabold tracking-tight text-(--text-dark)">
             Welcome Back
           </h1>
-          <p className="mt-2 text-sm text-(--color-normal) font-medium">
+          <p className="mt-2 text-sm text-(--text-dark)/70 font-medium">
             Log in to continue your architecture journey
           </p>
         </div>
@@ -61,7 +62,7 @@ const LoginPage = () => {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-bold text-(--color-last) mb-1">
+              <label className="block text-sm font-bold text-(--text-dark) mb-1">
                 Email Address
               </label>
               <input
@@ -69,12 +70,12 @@ const LoginPage = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-xl border-2 border-(--color-secondary) bg-white/50 p-3 outline-none transition-all focus:border-(--color-normal) focus:ring-4 focus:ring-(--color-secondary)/30 dark:bg-black/20 text-(--text-normal)"
+                className="w-full rounded-md border-2 border-(--text-dark)/30 bg-(--primary)/30 p-3 outline-none transition-all focus:border-(--accent) focus:ring-4 focus:ring-(--accent)/30 text-(--text-light)/80"
                 placeholder="jane@example.com"
               />
             </div>
             <div>
-              <label className="block text-sm font-bold text-(--color-last) mb-1">
+              <label className="block text-sm font-bold text-(--text-dark) mb-1">
                 Password
               </label>
               <input
@@ -82,7 +83,7 @@ const LoginPage = () => {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-xl border-2 border-(--color-secondary) bg-white/50 p-3 outline-none transition-all focus:border-(--color-normal) focus:ring-4 focus:ring-(--color-secondary)/30 dark:bg-black/20 text-(--text-normal)"
+                className="w-full rounded-md border-2 border-(--text-dark)/30 bg-(--primary)/30 p-3 outline-none transition-all focus:border-(--accent) focus:ring-4 focus:ring-(--accent)/30 text-(--text-light)/80"
                 placeholder="••••••••"
               />
             </div>
@@ -92,7 +93,7 @@ const LoginPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="group relative flex w-full justify-center rounded-xl bg-(--color-last) py-3 px-4 text-sm font-bold text-(--color-main) transition-all hover:opacity-90 active:scale-95 disabled:opacity-50 cursor-pointer shadow-lg hover:shadow-xl"
+              className="group relative flex w-full justify-center rounded-md bg-(--accent) py-3 px-4 text-sm font-bold text-(--text-light) transition-all hover:opacity-90 active:scale-95 disabled:opacity-50 cursor-pointer shadow-lg hover:shadow-xl"
             >
               {loading ? (
                 <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
@@ -104,11 +105,11 @@ const LoginPage = () => {
         </form>
 
         <div className="text-center">
-          <p className="text-sm text-(--color-normal) font-medium">
+          <p className="text-sm text-(--text-dark)/60 font-medium">
             Don&apos;t have an account?{" "}
             <Link
               href="/register"
-              className="font-bold text-(--color-last) hover:underline transition-all"
+              className="font-bold text-(--secondary) hover:underline transition-all"
             >
               Register here
             </Link>

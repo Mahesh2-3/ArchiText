@@ -5,6 +5,80 @@
   --foreground: #171717;
   --font-geist-sans: 'Geist Sans', sans-serif;
   --font-geist-mono: 'Geist Mono', monospace;
+  --primary: #F5F5F5;
+  --secondary: #FFCEE3;
+  --accent: #FF85BB;
+  --neutral: #061d53;
+}
+
+[data-theme="light"] {
+  --primary: #F5F5F5;
+  --secondary: #FFCEE3;
+  --accent: #FF85BB;
+  --neutral: #061d53;
+
+  --text-light: #1a1a1a;
+  --text-dark: #ffffff;
+}
+
+[data-theme="forest-vibes"] {
+  --primary: #091413;
+  --secondary: #285A48;
+  --accent: #408A71;
+  --neutral: #B0E4CC;
+
+  --text-light: #e6fff6;
+  --text-dark: #0f2e25;
+}
+
+[data-theme="sunset"] {
+  --primary: #FF5F00;
+  --secondary: #FFC300;
+  --accent: #FF8C00;
+  --neutral: #FFD400;
+
+  --text-light: #fff7e6;
+  --text-dark: #4a1f00;
+}
+
+[data-theme="earth"] {
+  --primary: #A47251;
+  --secondary: #DD9E59;
+  --accent: #F0D8A1;
+  --neutral: #DCF0C3;
+
+  --text-light: #fffaf0;
+  --text-dark: #3e2a1f;
+}
+
+[data-theme="ocean"] {
+  --primary: #111FA2;
+  --secondary: #5478FF;
+  --accent: #53CBF3;
+  --neutral: #FFDE42;
+
+  --text-light: #eef4ff;
+  --text-dark: #0a1445;
+}
+
+[data-theme="night"] {
+  --primary: #070F2B;
+  --secondary: #1B1A55;
+  --accent: #535C91;
+  --neutral: #9290C3;
+
+  --text-light: #e8eaff;
+  --text-dark: #0b0d1a;
+}
+
+[data-theme="vintage"] {
+  --primary: #9AB17A;
+  --secondary: #C3CC9B;
+  --accent: #E4DFB5;
+  --neutral: #FBE8CE;
+
+  --text-light: #fffdf5;
+  --text-dark: #3b3a2e;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -10,7 +10,12 @@ export const getArchitecture = async (projectId) => {
     );
 
     if (!response.ok) {
-      return { success: false, data: null, error: "Failed to fetch architecture" };
+      const errorData = await response.json().catch(() => ({}));
+      return {
+        success: false,
+        data: null,
+        error: errorData.message || "Failed to fetch architecture",
+      };
     }
 
     const result = await response.json();
