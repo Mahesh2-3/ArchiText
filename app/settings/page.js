@@ -12,7 +12,9 @@ import {
   FileContract,
   ChevronRight,
   ArrowLeft,
+  Palette,
 } from "../Helpers/icons";
+import ThemeDropDown from "../Components/ThemeDropDown";
 
 const settingsLinks = [
   {
@@ -96,7 +98,7 @@ const SettingsPage = () => {
             </span>
 
             {/* Links */}
-            <div className="flex flex-col rounded-sm overflow-hidden border border-gray-300 dark:border-gray-700 bg-(--color-secondary)/30">
+            <div className="flex flex-col rounded-sm border border-gray-300 dark:border-gray-700 bg-(--color-secondary)/30">
               {group.items.map((item, idx) => (
                 <Link
                   key={item.label}
@@ -111,7 +113,7 @@ const SettingsPage = () => {
                   <div className="w-10 h-10 rounded-lg bg-(--color-normal)/20 flex items-center justify-center shrink-0 group-hover:bg-(--color-normal)/30 transition">
                     <item.icon
                       size={18}
-                      className="text-(--color-last) group-hover:scale-110 transition-transform"
+                      className="text-(--accent) group-hover:scale-110 transition-transform"
                     />
                   </div>
 
@@ -132,6 +134,16 @@ const SettingsPage = () => {
                   />
                 </Link>
               ))}
+              {group.category === "Preferences" && (
+                <ThemeDropDown
+                  item={{
+                    label: "Theme",
+                    description: "Change the theme of the app",
+                    icon: Palette,
+                  }}
+                  isLast={true}
+                />
+              )}
             </div>
           </div>
         ))}

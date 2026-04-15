@@ -5,7 +5,7 @@
   --foreground: #171717;
   --font-geist-sans: 'Geist Sans', sans-serif;
   --font-geist-mono: 'Geist Mono', monospace;
-  
+
   /* Fallback to Light/Navy theme */
   --bg-main: #061d53;
   --bg-side: #04102d;
@@ -112,7 +112,8 @@
   }
 
   /* React Flow Styles */
-  .react-flow__pane, .react-flow__background {
+  .react-flow__pane,
+  .react-flow__background {
     background-color: var(--bg-main);
   }
 
@@ -144,4 +145,14 @@
     background: var(--accent) !important;
     color: var(--accent-text) !important;
   }
+}
+
+.hide-scrollbar {
+  scrollbar-width: 2px;
+  -ms-overflow-style: none;
+}
+
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
