@@ -31,6 +31,7 @@ const Conversation = () => {
   const projectId = useAppStore((state) => state.currentProject);
   const conversationId = useAppStore((state) => state.currentConversation);
   const setArchitectureData = useAppStore((state) => state.setArchitectureData);
+  const triggerSidebarRefresh = useAppStore((state) => state.triggerSidebarRefresh);
 
   // user input
   const [input, setInput] = useState("");
@@ -86,6 +87,7 @@ const Conversation = () => {
 
       // Redirect if it was the first message
       if (!conversationId && newConversationId) {
+        triggerSidebarRefresh();
         router.push(`/home?pid=${projectId}&cid=${newConversationId}`);
       }
 

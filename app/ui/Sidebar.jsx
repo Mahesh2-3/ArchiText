@@ -42,6 +42,7 @@ const Sidebar = ({ state, func, func2 }) => {
   const setCurrentProject = useAppStore((state) => state.setCurrentProject);
   const user = useAppStore((state) => state.user);
   const setUser = useAppStore((state) => state.setUser);
+  const refreshSidebarTrigger = useAppStore((state) => state.refreshSidebarTrigger);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -52,7 +53,7 @@ const Sidebar = ({ state, func, func2 }) => {
     };
 
     fetchProjects();
-  }, [user]); // only when user changes
+  }, [user, refreshSidebarTrigger]); // only when user changes or trigger forced
 
   useEffect(() => {
     if (!currentProject) return;
@@ -65,7 +66,7 @@ const Sidebar = ({ state, func, func2 }) => {
     };
 
     fetchConvos();
-  }, [currentProject]); // only when project changes
+  }, [currentProject, refreshSidebarTrigger]); // only when project changes or trigger forced
 
   const handleFetchConvo = async (projectId) => {
     router.replace(`/home?pid=${projectId}`);

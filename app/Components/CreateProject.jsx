@@ -1,7 +1,12 @@
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { createProject } from "../api/Project";
+import { useAppStore } from "../store/useAppStore";
 
 const CreateProject = ({ onClose }) => {
+  const router = useRouter();
+  const triggerSidebarRefresh = useAppStore((state) => state.triggerSidebarRefresh);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -16,6 +21,8 @@ const CreateProject = ({ onClose }) => {
     e.preventDefault();
     const res = await createProject(formData.title, formData.description);
     if (res.success) {
+      triggerSidebarRefresh();
+      router.push(`/home?pid=${res.data._id}`);
       onClose();
     }
   };

@@ -19,6 +19,61 @@ export const generateElements = (sourceData) => {
   const nodes = [];
   const edges = [];
 
+  // Handle generic nodes/edges from AI directly
+  if (Array.isArray(sourceData.nodes) && Array.isArray(sourceData.edges)) {
+    const styledNodes = sourceData.nodes.map(node => {
+      const priority = node.data?.priority || 4;
+      
+      let background = "var(--bg-card)";
+      let color = "var(--text-main)";
+      let borderColor = "var(--border)";
+      let fontSize = "12px";
+      let fontWeight = "normal";
+      let borderWidth = "2px";
+
+      // Override styles based on hierarchy priority
+      if (priority === 1) {
+        // Main Title
+        background = "var(--accent)";
+        color = "var(--accent-text)";
+        fontSize = "16px";
+        fontWeight = "extrabold";
+        borderWidth = "3px";
+      } else if (priority === 2) {
+        // Headings
+        background = "var(--bg-side)";
+        fontSize = "14px";
+        fontWeight = "bold";
+      } else if (priority === 3) {
+        // Sub-headings
+        fontWeight = "bold";
+      }
+
+      return {
+        ...node,
+        type: "default", // Force default type to ensure both source and target handles exist
+        data: {
+          ...node.data,
+          _height: 50 // Provide a default height for layout calculations
+        },
+        style: {
+          ...node.style,
+          background,
+          color,
+          borderColor,
+          borderRadius: "8px",
+          padding: "8px",
+          borderWidth,
+          boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+          fontWeight,
+          fontSize,
+          textAlign: "center"
+        }
+      };
+    });
+    return getLayoutedElements(styledNodes, sourceData.edges);
+  }
+
   /**
    * Reusable helper to insert styled layout nodes directly into ReactFlow collections.
    */

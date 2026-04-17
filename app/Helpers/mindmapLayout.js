@@ -50,13 +50,18 @@ export const getLayoutedElements = (nodes, edges) => {
      * Post-order traversal to calculate dimensions of each subtree exactly,
      * so that deep sibling hierarchies never overlap.
      */
-    function computeSizes(n) {
-        n.children.forEach(computeSizes);
+    function computeSizes(n, visited = new Set()) {
+        if (visited.has(n.flowNode.id)) return;
+        visited.add(n.flowNode.id);
+
+        n.children.forEach(child => computeSizes(child, visited));
         
         // Group children into rows of two (Binary representation)
         const rows = [];
-        for (let i = 0; i < n.children.length; i += 2) {
-            rows.push(n.children.slice(i, i + 2));
+        // Only include unique children that haven't already been processed as a parent in a cycle
+        const validChildren = n.children;
+        for (let i = 0; i < validChildren.length; i += 2) {
+            rows.push(validChildren.slice(i, i + 2));
         }
 
         let maxLeftWidth = 0;
@@ -87,7 +92,7 @@ export const getLayoutedElements = (nodes, edges) => {
             : maxLeftWidth;
 
         const nodeWidth = 300;
-        const nodeHeight = n.flowNode.data._height;
+        const nodeHeight = n.flowNode.data?._height || 50;
 
         // Propagate size upward to the parent
         n.treeWidth = Math.max(nodeWidth, childrenWidth);
@@ -103,7 +108,10 @@ export const getLayoutedElements = (nodes, edges) => {
     /**
      * Pre-order traversal to distribute calculated coordinates across layout grids.
      */
-    function setPositions(n, startX, startY) {
+    function setPositions(n, startX, startY, visited = new Set()) {
+        if (visited.has(n.flowNode.id)) return;
+        visited.add(n.flowNode.id);
+
         // Position the node using React Flow's coordinate system
         n.flowNode.position = { x: startX - 150, y: startY };
         n.flowNode.sourcePosition = Position.Bottom;
@@ -112,7 +120,7 @@ export const getLayoutedElements = (nodes, edges) => {
         // Return early if no children elements exist (leaf)
         if (n.children.length === 0) return;
 
-        const nodeHeight = n.flowNode.data._height;
+        const nodeHeight = n.flowNode.data?._height || 50;
         let currY = startY + nodeHeight + 80;
 
         let leftColCenterX = startX;
@@ -132,11 +140,11 @@ export const getLayoutedElements = (nodes, edges) => {
             let rowHeight = 0;
             
             if (left) {
-                setPositions(left, leftColCenterX, currY);
+                setPositions(left, leftColCenterX, currY, visited);
                 rowHeight = Math.max(rowHeight, left.treeHeight);
             }
             if (right) {
-                setPositions(right, rightColCenterX, currY);
+                setPositions(right, rightColCenterX, currY, visited);
                 rowHeight = Math.max(rowHeight, right.treeHeight);
             }
 
