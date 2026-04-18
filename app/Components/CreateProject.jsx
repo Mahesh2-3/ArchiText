@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { createProject } from "../api/Project";
 
-const CreateProject = ({ onClose }) => {
+const CreateProject = ({ onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -14,9 +16,12 @@ const CreateProject = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const res = await createProject(formData.title, formData.description);
+    setIsLoading(false);
     if (res.success) {
-      onClose();
+      if (onSuccess) onSuccess(res.data);
+      else if (onClose) onClose();
     }
   };
 
@@ -27,7 +32,7 @@ const CreateProject = ({ onClose }) => {
           <h1 className="text-2xl md:text-3xl font-bold text-(--color-last)">
             Create New Project
           </h1>
-          {onClose && (
+          {onClose && !isLoading && (
             <button
               onClick={onClose}
               className="p-2 rounded-full hover:bg-(--color-secondary)/20 text-(--color-last) transition-colors cursor-pointer"
@@ -49,7 +54,8 @@ const CreateProject = ({ onClose }) => {
               onChange={handleChange}
               placeholder="e.g. Modern E-commerce"
               required
-              className="w-full p-3 rounded-md border-2 border-(--color-secondary) outline-none focus:border-(--color-normal) focus:ring-4 focus:ring-(--color-secondary)/30 dark:bg-black/20 text-(--text-normal) transition-all"
+              disabled={isLoading}
+              className={`w-full p-3 rounded-md border-2 border-(--color-secondary) outline-none focus:border-(--color-normal) focus:ring-4 focus:ring-(--color-secondary)/30 dark:bg-black/20 text-(--text-normal) transition-all ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
             />
           </div>
 
@@ -63,7 +69,8 @@ const CreateProject = ({ onClose }) => {
               onChange={handleChange}
               placeholder="Describe the architecture goals..."
               rows={4}
-              className="w-full p-3 rounded-md border-2 border-(--color-secondary) outline-none focus:border-(--color-normal) focus:ring-4 focus:ring-(--color-secondary)/30 dark:bg-black/20 text-(--text-normal) transition-all resize-none"
+              disabled={isLoading}
+              className={`w-full p-3 rounded-md border-2 border-(--color-secondary) outline-none focus:border-(--color-normal) focus:ring-4 focus:ring-(--color-secondary)/30 dark:bg-black/20 text-(--text-normal) transition-all resize-none ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
             />
           </div>
 
@@ -72,16 +79,28 @@ const CreateProject = ({ onClose }) => {
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 p-3 rounded-md border-2 border-(--color-secondary) text-(--color-last) font-bold hover:bg-(--color-secondary)/10 transition-all cursor-pointer"
+                disabled={isLoading}
+                className={`flex-1 p-3 rounded-md border-2 border-(--color-secondary) text-(--color-last) font-bold transition-all ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-(--color-secondary)/10 cursor-pointer'}`}
               >
                 Cancel
               </button>
             )}
             <button
               type="submit"
-              className="flex-2 p-3 rounded-md bg-(--color-last) text-(--color-main) font-bold hover:opacity-90 active:scale-95 transition-all cursor-pointer shadow-lg"
+              disabled={isLoading}
+              className={`flex-2 p-3 rounded-md bg-(--color-last) text-(--color-main) font-bold shadow-lg transition-all flex justify-center items-center gap-2 ${isLoading ? 'opacity-70 cursor-wait' : 'hover:opacity-90 active:scale-95 cursor-pointer'}`}
             >
-              Create Project
+              {isLoading ? (
+                <>
+                  <svg className="animate-spin h-5 w-5 text-(--color-main)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Processing...
+                </>
+              ) : (
+                "Create Project"
+              )}
             </button>
           </div>
         </form>

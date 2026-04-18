@@ -1,7 +1,7 @@
 "use client";
 
 import { Group, Panel, Separator } from "react-resizable-panels";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu } from "../Helpers/icons";
 import Conversation from "../ui/Conversation";
@@ -19,6 +19,7 @@ export default function Home() {
   const cid = searchParams.get("cid");
 
   const [isSideBarOpen, setisSideBarOpen] = useState(true);
+  const [isConvoOpen, setIsConvoOpen] = useState(true);
   const [isCreateProjectOpen, setIsCreateProjectOpen] = useState(false);
   const setCId = useAppStore((state) => state.setCurrentConversation);
   const setPId = useAppStore((state) => state.setCurrentProject);
@@ -55,9 +56,22 @@ export default function Home() {
     setisSideBarOpen((prev) => !prev);
   };
 
+  // Toggle conversation panel
+  const toggleConvo = () => {
+    setIsConvoOpen((prev) => !prev);
+  };
+
   // Toggle the create project modal
   const toggleCreateProject = () => {
     setIsCreateProjectOpen((prev) => !prev);
+  };
+
+  // Called by CreateProject on success — refresh sidebar by navigating to the new project
+  const handleProjectCreated = (newProject) => {
+    setIsCreateProjectOpen(false);
+    if (newProject?._id) {
+      router.replace(`/home?pid=${newProject._id}`);
+    }
   };
 
   return (
@@ -71,7 +85,7 @@ export default function Home() {
           <Menu className="text-(--text-main)" />
         </button>
       )}
-      {isCreateProjectOpen && <CreateProject onClose={toggleCreateProject} />}
+      {isCreateProjectOpen && <CreateProject onClose={toggleCreateProject} onSuccess={handleProjectCreated} />}
       <Group
         className="h-screen w-full flex gap-0 bg-(--bg-main)"
         orientation="horizontal"
@@ -88,9 +102,17 @@ export default function Home() {
           <MindMap />
         </Panel>
         <Separator />
-        <Panel defaultSize={25} minSize="20%">
-          <Conversation />
+        <Panel defaultSize={25} minSize="20%" hidden={!isConvoOpen}>
+          <Conversation onClose={toggleConvo} />
         </Panel>
+        {!isConvoOpen && (
+          <button
+            onClick={toggleConvo}
+            className="absolute top-4 right-4 z-50 p-2 rounded-md bg-(--bg-card) hover:opacity-90 border border-(--border) shadow-lg transition cursor-pointer text-2xl"
+          >
+            <Menu className="text-(--text-main)" />
+          </button>
+        )}
       </Group>
     </div>
   );

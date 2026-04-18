@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import MessageCard from "../Components/MessageCard";
-import { AngleDown, PaperPlane } from "../Helpers/icons";
+import { AngleDown, Close, PaperPlane } from "../Helpers/icons";
 import {
   sendMessage,
   getConversationMessages,
@@ -14,7 +14,7 @@ import { useAppStore } from "../store/useAppStore";
 import { toast } from "react-toastify";
 import { toastOptions } from "../Helpers/toast";
 
-const Conversation = () => {
+const Conversation = ({ onClose }) => {
   //router for navigation
   const router = useRouter();
 
@@ -114,14 +114,27 @@ const Conversation = () => {
 
   return (
     <div className="h-full bg-(--bg-main) flex flex-col relative">
-      {/* titles */}
-      {titles.projectTitle && titles.conversationTitle && (
-        <div className="p-4 text-sm flex items-center gap-2 text-(--text-main) border-b border-(--border)">
-          <p className="font-semibold">{titles.projectTitle}</p>
-          <AngleDown className="-rotate-90" />
-          <p className="font-bold">{titles.conversationTitle}</p>
-        </div>
-      )}
+      {/* Header: titles + close button */}
+      <div className="flex items-center justify-between border-b border-(--border) shrink-0">
+        {titles.projectTitle && titles.conversationTitle ? (
+          <div className="p-4 text-sm flex items-center gap-2 text-(--text-main) flex-1 min-w-0">
+            <p className="font-semibold truncate">{titles.projectTitle}</p>
+            <AngleDown className="-rotate-90 shrink-0" />
+            <p className="font-bold truncate">{titles.conversationTitle}</p>
+          </div>
+        ) : (
+          <div className="flex-1" />
+        )}
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="p-3 text-(--text-muted) hover:text-(--text-main) hover:bg-(--accent)/10 transition shrink-0 cursor-pointer text-xl"
+            title="Close conversation panel"
+          >
+            <Close />
+          </button>
+        )}
+      </div>
       {mounted && !projectId && (
         <div className="z-50 absolute w-full h-full backdrop-blur-md bg-(--bg-main)/80 flex items-center justify-center p-6 text-center text-(--text-main) font-medium">
           Start sharing your thoughts

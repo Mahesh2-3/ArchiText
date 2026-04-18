@@ -8,7 +8,10 @@ import {
   Controls,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { generateElements } from "../Helpers/mindmapGenerator";
+import { generateElements as generateTreeElements } from "../Helpers/mindmapGenerator";
+import { generateElements as generateTimelineElements } from "../Helpers/timelineGenerator";
+import { generateElements as generateRadialElements } from "../Helpers/radialGenerator";
+import { generateElements as generateFlowchartElements } from "../Helpers/flowchartGenerator";
 import { useAppStore } from "../store/useAppStore";
 
 export default function MindMap() {
@@ -24,8 +27,14 @@ export default function MindMap() {
   if (architectureData !== prevArchitectureData) {
     setPrevArchitectureData(architectureData);
 
-    const sourceData = architectureData;
-    const { nodes: newNodes, edges: newEdges } = generateElements(sourceData);
+    const sourceData = architectureData || {};
+    
+    let generator = generateTreeElements;
+    if (sourceData.type === "timeline") generator = generateTimelineElements;
+    else if (sourceData.type === "radial") generator = generateRadialElements;
+    else if (sourceData.type === "flowchart") generator = generateFlowchartElements;
+
+    const { nodes: newNodes, edges: newEdges } = generator(sourceData);
 
     // This setState call during render is safe and recommended by React
     // for resetting state based on prop changes.
