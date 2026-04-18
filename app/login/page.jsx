@@ -24,19 +24,22 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
+      // API call to login the user
       const res = await login(email, password);
 
+      // Successful Login: store user data and then redirect
       if (res.success) {
         setUser(res.data);
         toast.success(
           "Login successful! Redirecting to home...",
           toastOptions(),
         );
+
         setTimeout(() => {
           router.push("/home");
         }, 2000);
       } else {
-        toast.error(res.error || "Invalid credentials", toastOptions());
+        toast.error("Invalid credentials", toastOptions());
       }
     } catch (err) {
       toast.error("Connection error. Please try again later.", toastOptions());
@@ -50,7 +53,6 @@ const LoginPage = () => {
       <Background />
       <ToastContainer />
       <div className="w-full max-w-md space-y-8 z-10 bg-(--bg-side)/80 backdrop-blur-md rounded-2xl border border-(--border) p-8 shadow-2xl">
-        <ThemeButton />
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-(--text-main)">
             Welcome Back
@@ -85,7 +87,7 @@ const LoginPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full rounded-md border border-(--border) bg-(--bg-main) p-3 outline-none transition-all focus:border-(--accent) focus:ring-4 focus:ring-(--accent)/20 text-(--text-main)"
-                placeholder="••••••••"
+                placeholder="password"
               />
             </div>
           </div>

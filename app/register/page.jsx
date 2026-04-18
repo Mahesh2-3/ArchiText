@@ -24,6 +24,12 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // handling empty fields
+    if(!name || !email || !password) {
+      toast.error("Please fill in all fields", toastOptions());
+      return;
+    }
     setLoading(true);
 
     try {
@@ -57,9 +63,7 @@ const RegisterPage = () => {
       <ToastContainer />
       <div className="w-full max-w-md space-y-8 z-10 bg-(--bg-side)/80 backdrop-blur-md rounded-2xl border border-(--border) p-8 shadow-2xl">
         <div className="text-center relative">
-          <div className="absolute -top-4 -right-4">
-            <ThemeButton />
-          </div>
+          <div className="absolute -top-4 -right-4"></div>
           <h1 className="text-4xl font-extrabold tracking-tight text-(--text-main)">
             Join archiText
           </h1>
@@ -106,7 +110,7 @@ const RegisterPage = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-md border border-(--border) bg-(--bg-main) p-3 pr-11 outline-none transition-all focus:border-(--accent) focus:ring-4 focus:ring-(--accent)/20 text-(--text-main)"
+                  className="w-full rounded-md border border-(--border) bg-(--bg-main) p-3 pr-11 outline-none transition-all focus:border-(--accent) focus:ring-4 focus:ring-(--accent)/20 text-(--text-main)"
                   placeholder="password"
                 />
                 <button

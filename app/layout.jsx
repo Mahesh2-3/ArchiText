@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ThemeProviderClient from "./Providers/ThemeProvider";
+import ErrorBoundary from "./Components/ErrorBoundary";
 import Script from "next/script";
 
 const geistSans = Geist({
@@ -41,7 +42,9 @@ export default function RootLayout({ children }) {
     }
   })();`}
         </Script>
-        <ThemeProviderClient>{children}</ThemeProviderClient>
+        <ThemeProviderClient>
+          <ErrorBoundary>{children}</ErrorBoundary>
+        </ThemeProviderClient>
       </body>
     </html>
   );

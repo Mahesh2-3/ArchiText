@@ -20,6 +20,8 @@ import { useAppStore } from "../store/useAppStore";
 import { getConversations } from "../api/Conversations";
 import { getProjects } from "../api/Project";
 import { logout } from "../api/Auth";
+import { toast } from "react-toastify";
+import { toastOptions } from "../Helpers/toast";
 
 const Sidebar = ({ state, func, func2 }) => {
   // router for navigation
@@ -77,6 +79,8 @@ const Sidebar = ({ state, func, func2 }) => {
     if (success) {
       setUser(null);
       router.push("/login");
+    } else {
+      toast.error("Logout failed. Please try Again.", toastOptions());
     }
   };
 

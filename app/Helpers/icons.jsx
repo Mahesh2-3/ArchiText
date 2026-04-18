@@ -2,6 +2,7 @@ import {
   AiOutlineSun as Sun,
   AiOutlineMenu as Menu,
   AiOutlineClose as Close,
+  AiOutlineLoading as Loading,
 } from "react-icons/ai";
 import { BiLogOut as Logout } from "react-icons/bi";
 import { BsMoonStars as Moon } from "react-icons/bs";
@@ -30,7 +31,6 @@ import {
   FaTrash as Trash,
 } from "react-icons/fa";
 import { IoColorPaletteOutline as Palette } from "react-icons/io5";
-
 export {
   Moon,
   Sun,
@@ -59,5 +59,6 @@ export {
   ChevronRight,
   ArrowLeft,
   Settings,
+  Loading,
   Palette,
 };

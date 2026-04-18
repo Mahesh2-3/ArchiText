@@ -13,7 +13,11 @@ export const login = async (email, password) => {
     const result = await response.json();
 
     if (!response.ok) {
-      return { success: false, data: null, error: result.message || "Login failed" };
+      return {
+        success: false,
+        data: null,
+        error: result.message || "Login failed",
+      };
     }
 
     return { success: true, data: result.data };
@@ -36,7 +40,11 @@ export const register = async (name, email, password) => {
     const result = await response.json();
 
     if (!response.ok) {
-      return { success: false, data: null, error: result.message || "Registration failed" };
+      return {
+        success: false,
+        data: null,
+        error: result.message || "Registration failed",
+      };
     }
 
     return { success: true, data: result.data };
@@ -59,6 +67,6 @@ export const logout = async () => {
 
     return { success: true, data: null };
   } catch (error) {
-    return { success: false, data: null, error: error.message };
+    return { success: false, data: null, error: "Internal Server Error." };
   }
 };
