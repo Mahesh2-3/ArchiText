@@ -47,7 +47,7 @@ const LoginPage = () => {
         );
 
         setTimeout(() => {
-          router.push("/home");
+          window.location.href = "/home";
         }, 1000);
       } else {
         toast.error("Invalid credentials", toastOptions());
