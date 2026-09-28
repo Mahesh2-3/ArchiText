@@ -5,6 +5,7 @@ import { toastOptions } from "../Helpers/toast";
 import { Loading } from "../Helpers/icons";
 import { useAppStore } from "../store/useAppStore";
 
+// Modal dialog component to handle new project creation
 const CreateProject = ({ onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
     title: "",
@@ -17,6 +18,7 @@ const CreateProject = ({ onClose, onSuccess }) => {
     (state) => state.triggerSidebarRefresh,
   );
 
+  // Validates form input fields before submission
   const validateForm = () => {
     const newErrors = {};
 
@@ -40,6 +42,7 @@ const CreateProject = ({ onClose, onSuccess }) => {
     return Object.keys(newErrors).length === 0;
   };
 
+  // Handles input field value changes and clears validation errors
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -50,6 +53,7 @@ const CreateProject = ({ onClose, onSuccess }) => {
     }
   };
 
+  // Submits form data to create a new project
   const handleSubmit = async (e) => {
     e.preventDefault();
 

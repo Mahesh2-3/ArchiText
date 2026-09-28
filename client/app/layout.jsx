@@ -30,6 +30,7 @@ export const metadata = {
   },
 };
 
+// Root layout component that configures global fonts, theme provider, and error boundary
 export default function RootLayout({ children }) {
   return (
     <html

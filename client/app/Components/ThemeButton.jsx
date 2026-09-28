@@ -13,6 +13,7 @@ const themes = [
   "vintage",
 ];
 
+// Button component to toggle and cycle through visual themes
 const ThemeButton = () => {
   const { theme, setTheme } = useThemeStore();
   const [mounted, setMounted] = useState(false);
@@ -23,6 +24,7 @@ const ThemeButton = () => {
     setMounted(true);
   }, []);
 
+  // Cycles through available themes in sequence
   const cycleTheme = () => {
     setIsRotating(true);
     const currentIndex = themes.indexOf(theme);

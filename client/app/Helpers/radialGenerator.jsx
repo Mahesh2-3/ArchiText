@@ -1,6 +1,7 @@
 import React from "react";
 import { getLayoutedElements } from "./radialLayout";
 
+// Generates ReactFlow nodes and edges formatted for radial graph layouts
 export const generateElements = (sourceData) => {
   if (!sourceData || !sourceData.centerNode) {
     return { nodes: [], edges: [] };

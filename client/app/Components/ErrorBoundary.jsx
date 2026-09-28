@@ -2,16 +2,19 @@
 import React from "react";
 import { toast } from "react-toastify";
 
+// Error boundary component to catch JavaScript errors in child component tree
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: null, errorInfo: null };
   }
 
+  // Updates state when an error occurs
   static getDerivedStateFromError(error) {
     return { hasError: true };
   }
 
+  // Logs error details and alerts the user
   componentDidCatch(error, errorInfo) {
     this.setState({
       error: error,

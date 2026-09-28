@@ -46,6 +46,7 @@ const NODE_STYLES = {
   },
 };
 
+// Generates ReactFlow nodes and edges formatted for flowchart layouts
 export const generateElements = (sourceData) => {
   if (!sourceData || !sourceData.nodes || !sourceData.edges) {
     return { nodes: [], edges: [] };

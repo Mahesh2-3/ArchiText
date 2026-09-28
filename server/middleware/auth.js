@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import logger from "../lib/logger.js";
 
+// Express middleware to verify JWT token and authenticate API requests
 const authMiddleware = (req, res, next) => {
   let token = req.cookies.token;
 

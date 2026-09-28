@@ -16,6 +16,7 @@ import { getProjects } from "../api/Project";
 import { toast } from "react-toastify";
 import { toastOptions } from "../Helpers/toast";
 
+// Main navigation sidebar displaying user details, project lists, and settings options
 const Sidebar = ({ state, func, func2 }) => {
   // router for navigation
   const router = useRouter();

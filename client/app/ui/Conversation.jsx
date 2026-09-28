@@ -13,6 +13,7 @@ import { useAppStore } from "../store/useAppStore";
 import { toast } from "react-toastify";
 import { toastOptions } from "../Helpers/toast";
 
+// Interactive chat drawer component for communicating with AI to modify blueprints
 const Conversation = ({ onClose }) => {
   //router for navigation
   const router = useRouter();
@@ -53,6 +54,7 @@ const Conversation = ({ onClose }) => {
     fetchConversation();
   }, [projectId]);
 
+  // Sends user prompt to AI endpoint and updates message conversation state
   const handleSend = async (e) => {
     e.preventDefault();
     if (!input.trim() || chatLoading) return;

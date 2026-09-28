@@ -1,3 +1,4 @@
+// Skeleton loader placeholder component displayed while fetching user projects
 const ProjectSkeleton = () => {
   return (
     <ul className="flex flex-col gap-6">

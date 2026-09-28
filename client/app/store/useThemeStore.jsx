@@ -1,5 +1,6 @@
 import { create } from "zustand";
 
+// Zustand state store for persisting and setting global UI theme preferences
 export const useThemeStore = create((set) => ({
   theme: "light",
   setTheme: (theme) => {

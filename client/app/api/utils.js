@@ -1,3 +1,4 @@
+// Gets the authentication token from cookies
 export const getAuthToken = () => {
   if (typeof document === "undefined") return null;
   const match = document.cookie.match(new RegExp("(^| )token=([^;]+)"));
@@ -5,6 +6,7 @@ export const getAuthToken = () => {
   return null;
 };
 
+// Generates authorization headers with token for requests
 export const getAuthHeaders = (extraHeaders = {}) => {
   const token = getAuthToken();
   const headers = { ...extraHeaders };
@@ -13,3 +15,4 @@ export const getAuthHeaders = (extraHeaders = {}) => {
   }
   return headers;
 };
+

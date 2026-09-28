@@ -19,6 +19,7 @@ const themeOptions = [
   { id: "vintage", label: "Vintage", color: "#9AB17A", bg: "#27261e" },
 ];
 
+// Dropdown selector component for picking themes
 const ThemeDropDown = ({ item, isLast }) => {
   const { theme, setTheme, loadTheme } = useThemeStore();
   const [isOpen, setIsOpen] = useState(false);

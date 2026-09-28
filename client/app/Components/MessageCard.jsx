@@ -1,6 +1,7 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
 
+// Renders individual user or AI chat message cards with markdown support
 const MessageCard = ({ content, isUser }) => {
   return (
     <div

@@ -1,5 +1,6 @@
 import Project from "../models/Project.js";
 
+// Middleware to check if the authenticated user owns the specified project
 export const checkProjectOwnership = async (req, res, next) => {
   try {
     const projectId = req.params.id || req.params.projectId || req.query.projectId || req.body.projectId;

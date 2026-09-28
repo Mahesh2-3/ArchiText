@@ -1,6 +1,6 @@
 import { getAuthHeaders } from "./utils";
 
-// Gets architecture for a project using projectId
+// Gets project details, structure for a project using projectId
 export const getArchitecture = async (projectId) => {
   try {
     const response = await fetch(

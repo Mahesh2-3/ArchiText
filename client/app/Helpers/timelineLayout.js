@@ -1,5 +1,6 @@
 import { Position } from '@xyflow/react';
 
+// Calculates vertical linear layout positions for timeline nodes
 export const getLayoutedElements = (nodes, edges) => {
     let currentY = 0;
     nodes.forEach((node) => {

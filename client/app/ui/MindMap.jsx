@@ -22,6 +22,7 @@ import { toPng, toSvg } from "html-to-image";
 import jsPDF from "jspdf";
 import { FaDownload } from "react-icons/fa6";
 
+// Main interactive canvas logic for rendering diagram elements and export options
 function MindMapInner() {
   const architectureData = useAppStore((state) => state.architectureData);
   const downloadFormat = useAppStore((state) => state.downloadFormat);
@@ -211,6 +212,7 @@ function MindMapInner() {
   );
 }
 
+// ReactFlow provider wrapper component for the mindmap canvas
 export default function MindMap() {
   return (
     <ReactFlowProvider>

@@ -4,6 +4,7 @@
 
 import { Position } from "@xyflow/react";
 
+// Calculates coordinate positioning and handles layout logic for flowchart elements
 export const getLayoutedElements = (nodes, edges, direction = "TB") => {
   const isHorizontal = direction === "LR";
 

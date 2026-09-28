@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+// Central Zustand state store managing user authentication, active project, and diagram data
 export const useAppStore = create(
   persist(
     (set, get) => ({

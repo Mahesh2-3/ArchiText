@@ -13,6 +13,7 @@ import { getArchitecture } from "../api/Architecture";
 import { toast, ToastContainer } from "react-toastify";
 import { toastOptions } from "../Helpers/toast";
 
+// Main dashboard workspace rendering sidebar, interactive mindmap diagram, and AI chat panel
 function HomeContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -195,6 +196,7 @@ function HomeContent() {
   );
 }
 
+// Suspense boundary wrapper component for the main dashboard page
 export default function Home() {
   return (
     <Suspense

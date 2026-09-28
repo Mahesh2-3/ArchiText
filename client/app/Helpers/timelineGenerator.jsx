@@ -5,6 +5,7 @@ import { getLayoutedElements } from "./timelineLayout";
 const BOX_WIDTH = 350;
 
 // Estimate node height based on content at a given width
+// Estimates the vertical height required for a timeline node card
 const estimateNodeHeight = (title = "", description = "") => {
   const charsPerLine = Math.floor(BOX_WIDTH / 8.5);
   const titleLines = Math.ceil(title.length / charsPerLine);
@@ -12,6 +13,7 @@ const estimateNodeHeight = (title = "", description = "") => {
   return Math.max(140, (titleLines + descLines) * 22 + 90);
 };
 
+// Generates ReactFlow nodes and edges formatted for timeline roadmap layouts
 export const generateElements = (sourceData) => {
   if (!sourceData || !sourceData.items) {
     return { nodes: [], edges: [] };

@@ -91,7 +91,7 @@ app.use((req, res, next) => {
 // Swagger documentation
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
-// Health check endpoint
+// Health check status endpoint
 app.get("/health", (req, res) => {
   res.status(200).json({
     success: true,

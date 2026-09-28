@@ -1,5 +1,6 @@
 import { Position } from '@xyflow/react';
 
+// Calculates circular positions for nodes in a radial graph layout
 export const getLayoutedElements = (nodes, edges) => {
     if (nodes.length === 0) return { nodes, edges };
 

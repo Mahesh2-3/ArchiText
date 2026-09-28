@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 // Minimal SVG/CSS representations of the 4 map structures
 
+// Renders a visual preview for tree mindmap structure
 const TreePreview = () => (
   <div className="relative w-full h-full flex items-center justify-center animate-in fade-in zoom-in duration-500">
     <svg
@@ -38,6 +39,7 @@ const TreePreview = () => (
   </div>
 );
 
+// Renders a visual preview for flowchart structure
 const FlowchartPreview = () => (
   <div className="relative w-full h-full flex items-center justify-center animate-in fade-in zoom-in duration-500">
     <svg
@@ -79,6 +81,7 @@ const FlowchartPreview = () => (
   </div>
 );
 
+// Renders a visual preview for timeline roadmap structure
 const TimelinePreview = () => (
   <div className="relative w-full h-full flex items-center justify-center animate-in fade-in zoom-in duration-500">
     <svg
@@ -117,6 +120,7 @@ const TimelinePreview = () => (
   </div>
 );
 
+// Renders a visual preview for radial graph structure
 const RadialPreview = () => (
   <div className="relative w-full h-full flex items-center justify-center animate-in fade-in zoom-in duration-500">
     <svg
@@ -158,6 +162,7 @@ const RadialPreview = () => (
   </div>
 );
 
+// Main tabbed component for showcasing diagram preview types
 export default function MapPreviews() {
   const [activeTab, setActiveTab] = useState(0);
 

@@ -1,159 +1,73 @@
-<div align="center">
-  
-  # 🚀 ArchiText
+# ArchiText
 
-  **Turn ideas into production-ready system architecture — not code.**
+ArchiText is a modern AI-powered project planning app built with the MERN stack. It helps users turn ideas into structured visual plans, smart diagrams, and reusable project roadmaps.
 
-  <p align="center">
-    <a href="#features">Features</a> •
-    <a href="#how-it-works">How It Works</a> •
-    <a href="#tech-stack">Tech Stack</a> •
-    <a href="#getting-started">Getting Started</a> •
-    <a href="#contributing">Contributing</a>
-  </p>
+## Summary
 
-</div>
+At its core, ArchiText makes planning faster and clearer by combining AI-assisted brainstorming with interactive diagram generation. Users can create and save projects, generate mind maps, flowcharts, timelines, and radial diagrams, and manage everything from their own dashboard. The app emphasizes a clean workflow, secure user authentication, and a responsive interface for planning on the web.
 
----
+## Tech Stack
 
-## 🎯 The Problem
+- **MongoDB**: Stores user accounts, project documents, chat history, and diagram data.
+- **Express**: Provides a REST-style API and server middleware for authentication, validation, and AI routing.
+- **React / Next.js**: Powers the frontend experience with server-rendered pages, dynamic route handling, and component-driven UI.
+- **Node.js**: Runs the backend server and coordinates database access, authentication, and AI calls.
 
-Developers, especially students and early-career engineers, often struggle with the initial phases of system design. It is challenging to:
-- Properly structure backend APIs
-- Design scalable database schemas
-- Choose the right tech stack for specific requirements
-- Think ahead about scalability and security
+### Additional Tools
 
-Most existing tools focus entirely on *code generation* while failing to teach the fundamental principles of **system design thinking**.
+- **OpenAI / AI prompts**: Drives smart project planning and diagram creation.
+- **JWT / token auth**: Secures user sessions and API access.
+- **Custom middleware**: Handles request validation, rate limiting, and ownership checks.
 
-## 💡 The Solution
+## Workflow
 
-**ArchiText** is an AI-powered System Architect that acts as your senior technical lead. By converting plain English ideas into structured, editable, and visual architecture plans, ArchiText helps you eliminate technical debt before you write a single line of code.
+1. **User Signup / Login**
+   - Users create an account using email and password.
+   - Verification and password reset flows keep accounts secure.
 
----
+2. **Project Creation**
+   - Users create a new project and describe its goals.
+   - The server saves project details in MongoDB.
 
-## ✨ Features
+3. **AI Planning & Diagram Generation**
+   - Users send prompts through the chat interface.
+   - The backend forwards the prompt to the AI service and receives structured outputs.
+   - Generated data is rendered as diagrams like mind maps, flowcharts, timelines, or radial charts.
 
-### 🛠️ Core Capabilities
-- **Idea to Tech Stack**: Receive personalized technology recommendations with "Why This?" explanations.
-- **Database Schema Design**: Automatically generate comprehensive, relation-aware database models.
-- **API Routing Plans**: Map out structured, RESTful API endpoints for your frontend and backend.
-- **Visual Mind Maps**: Turn your architecture into interactive Tree, Flowchart, Timeline, or Radial diagrams using React Flow.
+4. **Save, Edit, and Review**
+   - Saved projects are loaded from the database for editing.
+   - Users can revisit past plans, adjust content, and continue ideation.
 
-### 🚀 Advanced Tooling
-- **Folder Structure Generation**: Get a production-ready directory layout.
-- **Scaling Suggestions**: Receive tailored advice on caching, rate-limiting, and architecture scaling.
-- **Iterative Chat**: Modify and refine your architecture by talking to the AI in real-time.
-- **One-Click Export**: Download your mind maps in PNG, SVG, PDF, or JSON formats.
+5. **Export & Visualize**
+   - Diagram output is displayed in a responsive canvas.
+   - Users can review visual plans and use the UI to navigate project details.
 
----
+## Project Structure
 
-## 🧠 How It Works
+- `client/` - Frontend app built with Next.js and React components.
+- `server/` - Backend API, controllers, routes, models, and middleware.
+- `client/app/` - Next.js pages, UI components, helper utilities, and diagram generators.
+- `server/Controllers/` - Business logic for authentication, project management, and AI responses.
+- `server/models/` - Mongoose models for users, projects, messages, and OTP flows.
+- `server/routes/` - API endpoints for user auth, project actions, messaging, and AI interactions.
+- `server/middleware/` - Security and request handling layers.
+- `server/lib/` - Database connection and logging utilities.
 
-ArchiText operates on a simple, intuitive workflow:
+## Why ArchiText?
 
-**User Input** ➔ **AI Parsing Engine** ➔ **Architecture Generation** ➔ **Output Formatting** ➔ **Interactive UI**
+- Built for fast idea-to-visual conversion.
+- Uses the MERN stack for a scalable full-stack architecture.
+- Offers secure account flows and project persistence.
+- Supports multiple diagram formats in a single workspace.
+- Designed to help teams and individuals move from concept to plan quickly.
 
-Simply type your app idea (e.g., *"I want to build a habit tracker for students"*), and ArchiText will output a comprehensive, structured JSON blueprint encompassing everything from Next.js styling choices to MongoDB schemas, rendered beautifully in our Notion-like UI.
+## Getting Started
 
----
-
-## 💻 Tech Stack
-
-ArchiText is built with modern, performant web technologies:
-
-- **Frontend**: [Next.js](https://nextjs.org/) (React), [Tailwind CSS](https://tailwindcss.com/)
-- **Backend**: Next.js API Routes
-- **Database**: [MongoDB Atlas](https://www.mongodb.com/atlas)
-- **State Management**: [Zustand](https://github.com/pmndrs/zustand)
-- **Visualizations**: [@xyflow/react](https://reactflow.dev/) (React Flow)
-- **AI Integration**: Custom Prompt Engine + JSON Parser
-
----
-
-## 🚀 Getting Started
-
-To get a local copy up and running, follow these simple steps.
-
-### Prerequisites
-- Node.js (v18+)
-- MongoDB Atlas account or local MongoDB instance
-
-### Installation
-
-1. Clone the repo
-   ```sh
-   git clone https://github.com/Mahesh2-3/ArchiText.git
-   ```
-2. Install dependencies for both client and server
-   ```sh
-   cd ArchiText
-   
-   # Setup Client
-   cd client
-   npm install
-   
-   # Setup Server
-   cd ../server
-   npm install
-   ```
-3. Set up your environment variables
-   Create a `.env.local` file in the **server** directory:
-   ```env
-   MONGODB_URI=your_mongodb_connection_string
-   AI_API_KEY=your_ai_provider_api_key
-   ```
-4. Start the development servers
-   You will need to run the dev script in both directories:
-   
-   **In the server directory:**
-   ```sh
-   npm run dev
-   ```
-   
-   **In the client directory:**
-   ```sh
-   npm run dev
-   ```
+1. Install dependencies in both `client` and `server`.
+2. Configure environment variables for MongoDB and AI access.
+3. Run the server and frontend locally.
+4. Open the app in a browser, sign in, and start creating projects.
 
 ---
 
-## 🗄️ Database Structure
-
-ArchiText stores iterative project sessions in a structured document format:
-- **Users**: Authentication and basic profile data.
-- **Projects**: The core architecture metadata and AI-generated JSON.
-- **Conversations**: Chat session threads tied to specific projects.
-- **Messages**: Individual AI and User prompts for iterative architecture refinement.
-
----
-
-## 🔮 Future Scope
-
-- [ ] Export directly to Notion
-- [ ] Real-time Team Collaboration
-- [ ] GitHub Repository Scaffolding (1-click repo generation from architecture)
-- [ ] Plugin system for custom architecture rules
-
----
-
-## 🤝 Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📝 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
----
-<div align="center">
-  <i>Built with clarity. Stop guessing, start architecting.</i>
-</div>
+> ArchiText is designed to make project planning more visual, more collaborative, and more intelligent by using the MERN stack and AI-powered diagram workflows.

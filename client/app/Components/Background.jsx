@@ -1,6 +1,7 @@
 import gsap from "gsap";
 import React, { useEffect } from "react";
 
+// Renders animated grid background with project logo text
 const Background = () => {
   useEffect(() => {
     gsap.fromTo(

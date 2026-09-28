@@ -9,6 +9,7 @@ const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
+// Returns system prompt template according to specified diagram layout
 const getPromptForLayout = (layoutType) => {
   switch (layoutType) {
     case "timeline":
@@ -23,6 +24,7 @@ const getPromptForLayout = (layoutType) => {
   }
 };
 
+// Determines optimal diagram layout style for project
 export const decideLayout = async (title, description) => {
   const response = await groq.chat.completions.create({
     model: "llama-3.3-70b-versatile",
@@ -38,6 +40,7 @@ export const decideLayout = async (title, description) => {
   return parsed.layoutType || "tree";
 };
 
+// Generates initial architecture diagram JSON structure
 export const generateInitialStructure = async (title, description, layoutType) => {
   const prompt = getPromptForLayout(layoutType);
   const response = await groq.chat.completions.create({
@@ -53,6 +56,7 @@ export const generateInitialStructure = async (title, description, layoutType) =
   return response.choices[0].message.content;
 };
 
+// Sends conversation history and existing blueprint to AI for updates
 export const askGroq = async (convo, structure, layoutType = "tree") => {
   const prompt = getPromptForLayout(layoutType);
   const response = await groq.chat.completions.create({

@@ -1,5 +1,6 @@
 import { getAuthHeaders } from "./utils";
 
+// Updates the user profile details
 export const updateProfile = async (name) => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
@@ -18,6 +19,7 @@ export const updateProfile = async (name) => {
   }
 };
 
+// Updates the user password
 export const changePassword = async (oldPassword, newPassword) => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/password`, {
@@ -36,6 +38,7 @@ export const changePassword = async (oldPassword, newPassword) => {
   }
 };
 
+// Sends an OTP to the user email for password reset
 export const sendOtp = async () => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/send-otp`, {
@@ -53,6 +56,7 @@ export const sendOtp = async () => {
   }
 };
 
+// Resets user password using the received OTP
 export const resetPasswordWithOtp = async (otp, newPassword) => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/reset-password`, {
@@ -71,6 +75,7 @@ export const resetPasswordWithOtp = async (otp, newPassword) => {
   }
 };
 
+// Deletes all account data for the user
 export const deleteAllUserData = async () => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/data`, {
@@ -85,3 +90,4 @@ export const deleteAllUserData = async () => {
     return { success: false, message: error.message };
   }
 };
+

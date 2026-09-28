@@ -44,6 +44,7 @@ export const getProjects = async () => {
   }
 };
 
+// Gets the history of the project (chats)
 export const getHistory = async () => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project/history`, {
@@ -63,6 +64,7 @@ export const getHistory = async () => {
   }
 };
 
+// API to delete the project
 export const deleteProject = async (projectId) => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project/${projectId}`, {
